@@ -11,6 +11,7 @@ djangorestframework = "*"
 
 [dev-packages]
 flake8 = "*"
+model-bakery = "*"
 
 [requires]
 python_version = "3.11"
