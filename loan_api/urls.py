@@ -20,7 +20,7 @@ from rest_framework import routers
 from loan_api.base import views
 
 router = routers.DefaultRouter()
-router.register(r'loans', views.LoanViewSet)
+router.register(r'loans', views.LoanViewSet, basename='list_loans')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
