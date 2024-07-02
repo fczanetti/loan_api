@@ -4,6 +4,9 @@ from django.db import models
 class Bank(models.Model):
     name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return f'{self.name} - {self.pk}'
+
 
 class Loan(models.Model):
     value = models.PositiveIntegerField()
