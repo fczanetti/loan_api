@@ -8,32 +8,21 @@ from django.contrib.auth.models import User
 
 
 @pytest.fixture
-def users(db):
-    """
-    Creates and returns 2 users.
-    """
-    names = ['User Test 1', 'User Test 2']
-    return [User.objects.create(username=name, password='userpass') for name in names]
-
-
-@pytest.fixture
 def loans(db, users):
     """
     Creates and returns 2 loans.
     """
-    loans = [baker.make(Loan, client=f'{user.username} - {user.pk}') for user in users]
+    loans = [baker.make(Loan, client=user.username) for user in users]
     return loans
 
 
 @pytest.fixture
-def resp_list_loans_authenticated_user_test_1(loans, users):
+def resp_list_loans_authenticated_user_test_1(loans, auth_client_user_test_1):
     """
-    Creates a request by user named 'User Test 1' and returns its response.
+    Creates a request by authenticated user named
+    'User Test 1' and returns its response.
     """
-    user = User.objects.get(username='User Test 1')
-    client = APIClient()
-    client.force_authenticate(user=user)
-    resp = client.get('/api/loans/')
+    resp = auth_client_user_test_1.get('/api/loans/')
     return resp
 
 
@@ -51,8 +40,8 @@ def test_correct_loans_present_in_response(resp_list_loans_authenticated_user_te
     """
     user_01 = User.objects.get(username='User Test 1')
     user_02 = User.objects.get(username='User Test 2')
-    loan_01 = Loan.objects.filter(client=f'{user_01.username} - {user_01.pk}').first()
-    loan_02 = Loan.objects.filter(client=f'{user_02.username} - {user_02.pk}').first()
+    loan_01 = Loan.objects.filter(client=user_01.username).first()
+    loan_02 = Loan.objects.filter(client=user_02.username).first()
     serializer_01 = LoanSerializer(loan_01)
     serializer_02 = LoanSerializer(loan_02)
     assert serializer_01.data in resp_list_loans_authenticated_user_test_1.json()['results']
