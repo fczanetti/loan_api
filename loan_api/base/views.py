@@ -20,6 +20,6 @@ class LoanViewSet(viewsets.ModelViewSet):
         return Loan.objects.filter(client=client).order_by('request_date')
 
     def create(self, request, *args, **kwargs):
-
-        new_loan_data = create_loan(self.request)
-        return Response(new_loan_data, status=HTTP_201_CREATED)
+        new_loan = create_loan(self.request)
+        new_loan = LoanSerializer(new_loan)
+        return Response(new_loan.data, status=HTTP_201_CREATED)
