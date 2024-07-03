@@ -12,6 +12,8 @@ djangorestframework = "*"
 [dev-packages]
 flake8 = "*"
 model-bakery = "*"
+codecov = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.11"
