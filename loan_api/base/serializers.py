@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from loan_api.base.models import Loan
+from loan_api.base.models import Loan, Bank
 
 
 class LoanSerializer(serializers.HyperlinkedModelSerializer):
-    bank = serializers.StringRelatedField(read_only=True)
+    bank = serializers.PrimaryKeyRelatedField(queryset=Bank.objects.all())
 
     class Meta:
         model = Loan
