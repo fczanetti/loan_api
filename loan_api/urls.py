@@ -21,6 +21,7 @@ from loan_api.base import views
 
 router = routers.DefaultRouter()
 router.register(r'loans', views.LoanViewSet, basename='loans')
+router.register(r'payments', views.PaymentViewSet, basename='payments')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

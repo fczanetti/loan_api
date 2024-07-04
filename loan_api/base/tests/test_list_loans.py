@@ -1,19 +1,9 @@
 import pytest
 from rest_framework.test import APIClient
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
-from model_bakery import baker
 from loan_api.base.models import Loan
 from loan_api.base.serializers import LoanSerializer
 from django.contrib.auth.models import User
-
-
-@pytest.fixture
-def loans(db, users):
-    """
-    Creates and returns 2 loans.
-    """
-    loans = [baker.make(Loan, client=user.username) for user in users]
-    return loans
 
 
 @pytest.fixture
