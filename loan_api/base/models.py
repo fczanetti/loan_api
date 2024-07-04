@@ -5,7 +5,7 @@ class Bank(models.Model):
     name = models.CharField(max_length=64)
 
     def __str__(self):
-        return f'{self.name} - {self.pk}'
+        return f'{self.pk} - {self.name}'
 
 
 class Loan(models.Model):
@@ -21,3 +21,6 @@ class Payment(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
     payment_date = models.DateField(auto_now_add=True)
     value = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.pk} - ${self.value:.2f}'
