@@ -5,10 +5,12 @@ from loan_api.base.models import Loan, Bank, Payment
 
 class LoanSerializer(serializers.HyperlinkedModelSerializer):
     bank = serializers.PrimaryKeyRelatedField(queryset=Bank.objects.all())
+    payment_set = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Loan
-        fields = ['id', 'value', 'interest_rate', 'ip_address', 'request_date', 'bank', 'client']
+        fields = ['id', 'value', 'interest_rate', 'ip_address', 'request_date', 'bank', 'client', 'payment_set']
+        read_only_fields = ['ip_address', 'client', 'payment_set']
 
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
