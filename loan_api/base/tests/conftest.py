@@ -1,6 +1,9 @@
 import pytest
 from django.contrib.auth.models import User
+from model_bakery import baker
 from rest_framework.test import APIClient
+
+from loan_api.base.models import Loan
 
 
 @pytest.fixture
@@ -22,3 +25,12 @@ def auth_client_user_test_1(users):
     client = APIClient()
     client.force_authenticate(user=user_01)
     return client
+
+
+@pytest.fixture
+def loans(db, users):
+    """
+    Creates and returns 2 loans.
+    """
+    loans = [baker.make(Loan, client=user.username, value=250) for user in users]
+    return loans
