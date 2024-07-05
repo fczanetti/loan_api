@@ -51,7 +51,30 @@ classDiagram
 
 ## Folder structure
 
-In construction.
+Some of the main folders and files.
+
+```
+├── 📂 loan_api
+|   ├── 📂 contrib
+|   |   ├── env-sample
+|   ├── manage.py
+|   ├── Pipfile
+|   ├── Pipfile.lock
+|   ├── .flake8
+|   ├── pytest.ini
+|   ├── README.md
+|   ├── 📂 loan_api
+|   |   ├── urls.py
+|   |   ├── settings.py
+|   |   ├── 📂 base
+|   |   |   ├── 📂 migrations
+|   |   |   ├── 📂 tests
+|   |   |   ├── admin.py
+|   |   |   ├── loans.py
+|   |   |   ├── models.py
+|   |   |   ├── serializers.py
+|   |   |   ├── views.py
+```
 
 
 ## How to install and test
