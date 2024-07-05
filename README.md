@@ -22,7 +22,31 @@ Or, if you prefer, you can also check [the original repository](https://github.c
 
 ## Database models
 
-In construction.
+```mermaid
+classDiagram
+
+    Loan "*" <--> "1" Bank
+    Payment "*" <--> "1" Loan
+
+    class Bank {
+        - name: ~string~
+    }
+
+    class Loan {
+        - value: ~int~
+        - interest_rate: ~float~
+        - ip_address: ~string~
+        - request_date: ~date~
+        - bank - ~int~
+        - client - ~string~
+    }
+
+    class Payment {
+        - loan: ~int~
+        - payment_date: ~date~
+        - value: ~int~
+    }
+```
 
 
 ## Folder structure
