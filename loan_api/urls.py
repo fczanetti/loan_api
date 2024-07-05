@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.authtoken import views as auth_views
 from loan_api.base import views
 
 router = routers.DefaultRouter()
@@ -25,5 +26,6 @@ router.register(r'payments', views.PaymentViewSet, basename='payments')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api-auth-token/', auth_views.obtain_auth_token)
 ]
