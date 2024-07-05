@@ -1,16 +1,8 @@
 import pytest
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
-from loan_api.base.models import Bank, Loan
+from loan_api.base.models import Loan
 from loan_api.base.serializers import LoanSerializer
 from rest_framework.test import APIClient
-
-
-@pytest.fixture
-def bank(db):
-    """
-    Creates and returns a Bank instance.
-    """
-    return Bank.objects.create(name='Test Bank')
 
 
 @pytest.fixture

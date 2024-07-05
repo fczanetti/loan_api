@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from loan_api.base.models import Loan
+from loan_api.base.models import Loan, Bank
 
 
 @pytest.fixture
@@ -34,3 +34,27 @@ def loans(db, users):
     """
     loans = [baker.make(Loan, client=user.username, value=250) for user in users]
     return loans
+
+
+@pytest.fixture
+def loan_01(loans):
+    """
+    Returns loan_01.
+    """
+    return Loan.objects.filter(client='User Test 1').first()
+
+
+@pytest.fixture
+def loan_02(loans):
+    """
+    Returns loan_02.
+    """
+    return Loan.objects.filter(client='User Test 2').first()
+
+
+@pytest.fixture
+def bank(db):
+    """
+    Creates and returns a Bank instance.
+    """
+    return Bank.objects.create(name='Test Bank')

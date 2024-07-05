@@ -7,15 +7,14 @@ from model_bakery import baker
 
 
 @pytest.fixture
-def resp_retrieve_loan_authenticated_user_test_1(auth_client_user_test_1, loans):
+def resp_retrieve_loan_authenticated_user_test_1(auth_client_user_test_1, loan_01):
     """
     Creates a request to retrieve a loan that
     belongs to 'User Test 1' and returns a response.
     """
-    loan = Loan.objects.filter(client='User Test 1').first()
-    baker.make(Payment, loan=loan, value=50)
-    baker.make(Payment, loan=loan, value=60)
-    resp = auth_client_user_test_1.get(f'/api/loans/{loan.pk}/')
+    baker.make(Payment, loan=loan_01, value=50)
+    baker.make(Payment, loan=loan_01, value=60)
+    resp = auth_client_user_test_1.get(f'/api/loans/{loan_01.pk}/')
     return resp
 
 
@@ -27,13 +26,12 @@ def test_status_code_retrieve_loan(resp_retrieve_loan_authenticated_user_test_1)
     assert resp_retrieve_loan_authenticated_user_test_1.status_code == HTTP_200_OK
 
 
-def test_retrieve_loan_from_other_client_not_found(auth_client_user_test_1, loans):
+def test_retrieve_loan_from_other_client_not_found(auth_client_user_test_1, loan_02):
     """
     Certifies that a user can not retrieve
     loans from others.
     """
-    loan_user_2 = Loan.objects.filter(client='User Test 2').first()
-    resp = auth_client_user_test_1.get(f'/api/loans/{loan_user_2.pk}/')
+    resp = auth_client_user_test_1.get(f'/api/loans/{loan_02.pk}/')
     assert resp.status_code == HTTP_404_NOT_FOUND
 
 
