@@ -19,3 +19,13 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Payment
         fields = ['id', 'loan', 'payment_date', 'value']
+
+    def validate_loan(self, value):
+        """
+        Certifies that the loan informed belongs to
+        the user creating the payment.
+        """
+        client = self.context['request'].user.username
+        if not Loan.objects.filter(client=client).filter(id=value.id).exists():
+            raise serializers.ValidationError('Make sure you informed a valid loan ID.')
+        return value
