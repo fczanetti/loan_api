@@ -12,7 +12,6 @@ def create_loan(request):
 
     # Getting some necessary infos
     data['ip_address'] = request.stream.META.get('REMOTE_ADDR')
-    data['bank'] = request.data.get('bank')
     data['client'] = request.user.username
 
     # Creating and returning a Loan instance
