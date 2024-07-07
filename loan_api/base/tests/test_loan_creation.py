@@ -29,11 +29,16 @@ def test_new_loan_created(resp_loan_creation_authenticated_user_test_1):
     Certifies that the new loan was created, saved and
     is shown in the response.
     """
-    new_loan = Loan.objects.filter(value=100)
+    new_loan = Loan.objects.filter(client='User Test 1')
     assert new_loan.exists()
 
     serializer = LoanSerializer(new_loan.first())
     assert resp_loan_creation_authenticated_user_test_1.json() == serializer.data
+
+    # Certifying ip_address and client were automatically
+    # filled (these are not required in the request)
+    assert serializer.data['ip_address'] != ''
+    assert serializer.data['client'] != ''
 
 
 def test_requests_with_invalid_data(auth_client_user_test_1, bank):

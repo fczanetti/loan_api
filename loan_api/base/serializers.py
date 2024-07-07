@@ -10,7 +10,6 @@ class LoanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Loan
         fields = ['id', 'value', 'interest_rate', 'ip_address', 'request_date', 'bank', 'client', 'payment_set']
-        read_only_fields = ['ip_address', 'client', 'payment_set']
 
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
