@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 
-from loan_api.base.loans import create_loan
+from loan_api.base.loans import create_loan, update_loan
 from loan_api.base.models import Loan, Payment
 from loan_api.base.serializers import LoanSerializer, PaymentSerializer
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
+from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK
 
 
 class LoanViewSet(viewsets.ModelViewSet):
@@ -19,6 +19,11 @@ class LoanViewSet(viewsets.ModelViewSet):
         new_loan = create_loan(self.request)
         new_loan = LoanSerializer(new_loan)
         return Response(new_loan.data, status=HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        updated_loan = update_loan(self.request, kwargs['pk'])
+        updated_loan = LoanSerializer(updated_loan)
+        return Response(updated_loan.data, status=HTTP_200_OK)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
