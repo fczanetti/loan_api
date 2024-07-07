@@ -71,3 +71,39 @@ def test_invalid_inputs_not_allowed(auth_client_user_test_1, loan_01, bank):
     assert resp_01.status_code == HTTP_400_BAD_REQUEST
     assert resp_02.status_code == HTTP_400_BAD_REQUEST
     assert resp_03.status_code == HTTP_400_BAD_REQUEST
+
+
+def test_ip_address_and_client_are_not_updated(bank, auth_client_user_test_1, loan_01):
+    """
+    Certifies that ip_address and client are not updated
+    when inserted in a request.
+    """
+    loan_01.ip_address = '1.2.3.4'
+    loan_01.save()
+    data = {'value': 30, 'interest_rate': 2, 'bank': bank.pk, 'ip_address': 'new.ip.address', 'client': 'New Client'}
+    resp = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data)
+    updated_loan = Loan.objects.get(ip_address='1.2.3.4')
+
+    assert resp.status_code == HTTP_200_OK
+
+    # Updated values
+    assert updated_loan.value == 30
+    assert updated_loan.interest_rate == 2
+
+    # Values that should not be updated
+    assert updated_loan.ip_address != 'new.ip.address'
+    assert updated_loan.ip_address == '1.2.3.4'
+    assert updated_loan.client != 'New Client'
+    assert updated_loan.client == loan_01.client
+
+
+def test_partial_update(auth_client_user_test_1, loan_01):
+    """
+    Certifies that partial updates are also allowed.
+    """
+    data = {'value': 199}
+    resp = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data)
+    updated_loan = Loan.objects.get(id=loan_01.pk)
+
+    assert resp.status_code == HTTP_200_OK
+    assert updated_loan.value == 199
