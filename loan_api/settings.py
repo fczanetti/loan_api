@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
+    'debug_toolbar',
     'rest_framework',
     'loan_api.base'
 ]
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'loan_api.urls'
@@ -121,6 +123,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+INTERNAL_IPS = config('INTERNAL_IPS', default='127.0.0.1', cast=Csv())
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -128,7 +132,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
 }
 
-# basic_auth = (
-#     REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'].insert(
-#         0, 'rest_framework.authentication.BasicAuthentication')
-# )
+basic_auth = (
+    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'].insert(
+        0, 'rest_framework.authentication.BasicAuthentication')
+)

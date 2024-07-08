@@ -8,6 +8,7 @@ django = "*"
 python-decouple = "*"
 pytest-django = "*"
 djangorestframework = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 flake8 = "*"
