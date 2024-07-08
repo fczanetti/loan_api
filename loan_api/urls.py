@@ -20,6 +20,8 @@ from rest_framework import routers
 from rest_framework.authtoken import views as auth_views
 from loan_api.base import views
 
+from debug_toolbar.toolbar import debug_toolbar_urls
+
 router = routers.DefaultRouter()
 router.register(r'loans', views.LoanViewSet, basename='loans')
 router.register(r'payments', views.PaymentViewSet, basename='payments')
@@ -28,4 +30,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth-token/', auth_views.obtain_auth_token)
-]
+] + debug_toolbar_urls()
