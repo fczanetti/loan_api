@@ -11,7 +11,7 @@ def resp_loan_creation_authenticated_user_test_1(auth_client_user_test_1, bank):
     Creates a POST request by user named 'User Test 1' creating
     a new loan and returns a response.
     """
-    data = {'value': 100, 'interest_rate': 5, 'bank': bank.pk}
+    data = {'value': 100, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
     resp = auth_client_user_test_1.post('/api/loans/', data=data)
     return resp
 
@@ -49,11 +49,16 @@ def test_requests_with_invalid_data(auth_client_user_test_1, bank):
     Also certifies that extra fields informed are
     just ignored.
     """
-    data_01 = {'value': -1, 'interest_rate': 5, 'bank': bank.pk}  # Value must be positive;
-    data_02 = {'value': 1, 'interest_rate': '', 'bank': bank.pk}  # Interest rate must be a valid number;
-    data_03 = {'value': 1, 'interest_rate': 5, 'bank': 123}       # The bank.pk must be valid (from an existing bank);
-    data_04 = {'value': 1, 'interest_rate': 5}                    # bank.pk must not be null;
-    data_05 = {'value': 1, 'interest_rate': 5, 'bank': bank.pk, 'extra_field': 'abc'}  # Extra fields are ignored.
+    # Value must be positive;
+    data_01 = {'value': -1, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
+    # Interest rate must be a valid number;
+    data_02 = {'value': 1, 'interest_rate': '', 'bank': bank.pk, 'installments': 1}
+    # The bank.pk must be valid (from an existing bank);
+    data_03 = {'value': 1, 'interest_rate': 5, 'bank': 123, 'installments': 1}
+    # bank.pk must not be null;
+    data_04 = {'value': 1, 'interest_rate': 5, 'installments': 1}
+    # Extra fields are ignored.
+    data_05 = {'value': 1, 'interest_rate': 5, 'bank': bank.pk, 'extra_field': 'abc', 'installments': 1}
 
     resp_01 = auth_client_user_test_1.post('/api/loans/', data=data_01)
     resp_02 = auth_client_user_test_1.post('/api/loans/', data=data_02)

@@ -39,3 +39,19 @@ def test_unauthenticated_user_request_unauthorized(db):
     client = APIClient()
     resp = client.get('/api/loans/')
     assert resp.status_code == HTTP_401_UNAUTHORIZED
+
+
+def test_unpaid_value_present_in_results(resp_list_loans_authenticated_user_test_1):
+    """
+    Certifies that unpaid_value is present in each loan.
+    """
+    resp = resp_list_loans_authenticated_user_test_1.json()['results'][0]
+    assert resp.get('unpaid_value', None) is not None
+
+
+def test_installment_value_present_in_results(resp_list_loans_authenticated_user_test_1):
+    """
+    Certifies that installment_value is present in each loan.
+    """
+    resp = resp_list_loans_authenticated_user_test_1.json()['results'][0]
+    assert resp.get('installment_value', None) is not None
