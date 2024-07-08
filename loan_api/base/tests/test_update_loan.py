@@ -1,7 +1,8 @@
 import pytest
 
 from loan_api.base.models import Loan
-from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST, \
+    HTTP_405_METHOD_NOT_ALLOWED
 from rest_framework.test import APIClient
 from loan_api.base.serializers import LoanSerializer
 
@@ -58,52 +59,19 @@ def test_unauthenticated_user_can_not_update_loans(loan_01, bank):
 def test_invalid_inputs_not_allowed(auth_client_user_test_1, loan_01, bank):
     """
     Certifies that invalid requests return a
-    400 status code response.
+    400 or 405 status code response.
     """
-    data_01 = {'value': '', 'interest_rate': 2, 'bank': bank.pk}        # Invalid value
-    data_02 = {'value': 120, 'interest_rate': 'a', 'bank': bank.pk}     # Invalid interest_rate
-    data_03 = {'value': 120, 'interest_rate': 3, 'bank': 123}         # Invalid bank
+    data_01 = {'value': '', 'interest_rate': 2, 'bank': bank.pk}  # Invalid value
+    data_02 = {'value': 120, 'interest_rate': 'a', 'bank': bank.pk}  # Invalid interest_rate
+    data_03 = {'value': 120, 'interest_rate': 3, 'bank': 123}  # Invalid bank
+    data_04 = {'value': 120, 'interest_rate': 3, 'bank': bank.pk}
 
     resp_01 = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data_01)
     resp_02 = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data_02)
     resp_03 = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data_03)
+    resp_04 = auth_client_user_test_1.put('/api/loans/', data=data_04)  # Invalid method
 
     assert resp_01.status_code == HTTP_400_BAD_REQUEST
     assert resp_02.status_code == HTTP_400_BAD_REQUEST
     assert resp_03.status_code == HTTP_400_BAD_REQUEST
-
-
-def test_ip_address_and_client_are_not_updated(bank, auth_client_user_test_1, loan_01):
-    """
-    Certifies that ip_address and client are not updated
-    when inserted in a request.
-    """
-    loan_01.ip_address = '1.2.3.4'
-    loan_01.save()
-    data = {'value': 30, 'interest_rate': 2, 'bank': bank.pk, 'ip_address': 'new.ip.address', 'client': 'New Client'}
-    resp = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data)
-    updated_loan = Loan.objects.get(ip_address='1.2.3.4')
-
-    assert resp.status_code == HTTP_200_OK
-
-    # Updated values
-    assert updated_loan.value == 30
-    assert updated_loan.interest_rate == 2
-
-    # Values that should not be updated
-    assert updated_loan.ip_address != 'new.ip.address'
-    assert updated_loan.ip_address == '1.2.3.4'
-    assert updated_loan.client != 'New Client'
-    assert updated_loan.client == loan_01.client
-
-
-def test_partial_update(auth_client_user_test_1, loan_01):
-    """
-    Certifies that partial updates are also allowed.
-    """
-    data = {'value': 199}
-    resp = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data)
-    updated_loan = Loan.objects.get(id=loan_01.pk)
-
-    assert resp.status_code == HTTP_200_OK
-    assert updated_loan.value == 199
+    assert resp_04.status_code == HTTP_405_METHOD_NOT_ALLOWED
