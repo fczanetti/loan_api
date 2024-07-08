@@ -32,7 +32,7 @@ def loans(db, users):
     """
     Creates and returns 2 loans.
     """
-    loans = [baker.make(Loan, client=user.username, value=250) for user in users]
+    loans = [baker.make(Loan, client=user.username, value=250, installments=2) for user in users]
     return loans
 
 

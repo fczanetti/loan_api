@@ -12,7 +12,7 @@ def resp_update_loan_authenticated_user_test_1(auth_client_user_test_1, loan_01,
     """
     Creates a request updating a loan and returns a response.
     """
-    data = {'value': 110, 'interest_rate': 2, 'bank': bank.pk}
+    data = {'value': 110, 'interest_rate': 2, 'bank': bank.pk, 'installments': 1}
     resp = auth_client_user_test_1.put(f'/api/loans/{loan_01.pk}/', data=data)
     return resp
 

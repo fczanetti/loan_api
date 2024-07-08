@@ -15,12 +15,13 @@ class Loan(models.Model):
     request_date = models.DateField(auto_now_add=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     client = models.CharField(max_length=64)
+    installments = models.PositiveSmallIntegerField()
 
 
 class Payment(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
     payment_date = models.DateField(auto_now_add=True)
-    value = models.PositiveIntegerField()
+    value = models.FloatField()
 
     def __str__(self):
         return f'{self.pk} - ${self.value:.2f}'

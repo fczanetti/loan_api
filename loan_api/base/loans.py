@@ -1,4 +1,4 @@
-from loan_api.base.serializers import LoanSerializer
+from loan_api.base.models import Loan
 
 
 def create_loan(request):
@@ -6,6 +6,8 @@ def create_loan(request):
     Receives a request and returns a Loan instance
     if the input was valid.
     """
+    from loan_api.base.serializers import LoanSerializer
+
     # Creating a copy so data can be edited.
     data = request.data.copy()
 
@@ -16,3 +18,44 @@ def create_loan(request):
         serializer.save(ip_address=request.stream.META.get('REMOTE_ADDR'),
                         client=request.user.username)
         return serializer.instance
+
+
+def calculate_installment_value(loan: Loan):
+    """
+    Calculates the value of each installment based
+    on value, number of installments and interest
+    rate of a loan.
+    """
+    # Original value of the loan
+    pv = loan.value
+
+    # Number of installments to quit the loan
+    n = loan.installments
+
+    # Interest rate agreed
+    i = loan.interest_rate / 100
+
+    # Value of monthly payment/installments
+    p = pv * (((1 + i) ** n) * i) / (((1 + i) ** n) - 1)
+
+    return round(p, 2)
+
+
+def calculate_unpaid_value(loan):
+    """
+    Calculates the total unpaid value for a loan
+    discounting the amount already paid.
+    """
+    paid_value = 0
+
+    # Value of each installment
+    installment_value = calculate_installment_value(loan)
+
+    # Total value to be paid (original value + interest)
+    total_value = installment_value * loan.installments
+
+    # Retrieving what was already paid
+    for payment in loan.payment_set.all():
+        paid_value += payment.value
+
+    return f'${total_value - paid_value:_.2f}'.replace('.', ',').replace('_', '.')
