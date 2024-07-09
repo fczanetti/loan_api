@@ -39,3 +39,12 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         if not Loan.objects.filter(client=client).filter(id=value.id).exists():
             raise serializers.ValidationError('Make sure you informed a valid loan ID.')
         return value
+
+    def validate_value(self, value):
+        """
+        Certifies that the value informed is positive
+        and greater than 0.
+        """
+        if not value > 0:
+            raise serializers.ValidationError('Make sure you informed a greater than zero value.')
+        return value
