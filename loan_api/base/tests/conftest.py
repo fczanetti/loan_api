@@ -67,3 +67,12 @@ def payment_loan_01(db, loan_01):
     """
     payment = Payment.objects.create(loan=loan_01, value=20)
     return payment
+
+
+@pytest.fixture
+def payment_loan_02(db, loan_02):
+    """
+    Creates and returns a payment.
+    """
+    payment = Payment.objects.create(loan=loan_02, value=20)
+    return payment
