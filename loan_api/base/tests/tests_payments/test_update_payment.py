@@ -32,12 +32,11 @@ def test_payment_updated_and_returned_in_the_response(resp_update_payment_authen
     assert resp_update_payment_authenticated_user_1.json() == serializer.data
 
 
-def test_user_1_can_not_update_payment_from_user_2(auth_client_user_test_1, loan_02):
+def test_user_1_can_not_update_payment_from_user_2(auth_client_user_test_1, payment_loan_02, loan_01):
     """
     Certifies that a user can not update payments from others.
     """
-    payment_loan_02 = Payment.objects.create(loan=loan_02, value=20)
-    data = {'loan': loan_02.pk, 'value': 25}
+    data = {'loan': loan_01.pk, 'value': 25}
     resp = auth_client_user_test_1.put(f'/api/payments/{payment_loan_02.pk}/', data=data)
     assert resp.status_code == HTTP_404_NOT_FOUND
 
