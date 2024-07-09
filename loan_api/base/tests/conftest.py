@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from loan_api.base.models import Loan, Bank
+from loan_api.base.models import Loan, Bank, Payment
 
 
 @pytest.fixture
@@ -58,3 +58,12 @@ def bank(db):
     Creates and returns a Bank instance.
     """
     return Bank.objects.create(name='Test Bank')
+
+
+@pytest.fixture
+def payment_loan_01(db, loan_01):
+    """
+    Creates and returns a payment.
+    """
+    payment = Payment.objects.create(loan=loan_01, value=20)
+    return payment

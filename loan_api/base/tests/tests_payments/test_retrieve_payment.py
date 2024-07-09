@@ -7,15 +7,6 @@ from loan_api.base.serializers import PaymentSerializer
 
 
 @pytest.fixture
-def payment_loan_01(db, loan_01):
-    """
-    Creates and returns a payment.
-    """
-    payment = Payment.objects.create(loan=loan_01, value=20)
-    return payment
-
-
-@pytest.fixture
 def resp_retrieve_payment_authenticated_user_test_1(auth_client_user_test_1, payment_loan_01):
     """
     Creates a request retrieving a payment and returns a response.
