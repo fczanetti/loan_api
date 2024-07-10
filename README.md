@@ -257,7 +257,7 @@ To list all loans, send a GET request to ```/api/loans/```. If successfull, the 
 
 ### 4 - Updating a Loan
 
-To update a Loan, we have to send a PUT request to ```/api/loans/{loan_id}/``` informing the ID of the Loan that we want to update. For example, if we need to update the Loan we created [on this step]() we have to send a request to ```/api/loans/5/``` as follows:
+To update a Loan, we have to send a PUT request to ```/api/loans/{loan_id}/``` informing the ID of the Loan that we want to update. For example, if we need to update the Loan we created [on this step](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan) we have to send a request to ```/api/loans/5/``` as follows:
 
 ```
 {
