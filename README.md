@@ -103,9 +103,7 @@ When a Loan in created, the value, interest rate and number of monthly installme
 - pv = paid value
 
 $$
-
 iv = ov * \frac{(1+i)^n * i}{(1 + i)^n - 1}
-
 $$
 
 Having the installment value we can calculate the total outstanding balance from the Loan.
