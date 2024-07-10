@@ -21,6 +21,23 @@ You can check the project instructions/requirements [on this link](https://githu
 Or, if you prefer, you can also check [the original repository](https://github.com/onidata/vagas).
 
 
+# Content
+
+- [Database models](https://github.com/fczanetti/loan_api?tab=readme-ov-file#database-models)
+- [Folder structure](https://github.com/fczanetti/loan_api?tab=readme-ov-file#folder-structure)
+- [How to install and test](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test)
+- [How to install and test with Docker](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test-with-docker)
+- [Outstanding balance calculation (unpaid value)](https://github.com/fczanetti/loan_api?tab=readme-ov-file#outstanding-balance-calculation-unpaid-value)
+- [API documentation](https://github.com/fczanetti/loan_api?tab=readme-ov-file#api-documentation)
+    - [Endpoints](https://github.com/fczanetti/loan_api?tab=readme-ov-file#endpoints)
+    - [Authentication](https://github.com/fczanetti/loan_api?tab=readme-ov-file#authentication)
+    - [Creating a new Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan)
+    - [Retrieving a specific Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#2---retrieving-a-specific-loan)
+    - [Listing loans](https://github.com/fczanetti/loan_api?tab=readme-ov-file#3---listing-loans)
+    - [Updating a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#4---updating-a-loan)
+    - [Deleting a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#5---deleting-a-loan)
+
+
 ## Database models
 
 ```mermaid
@@ -106,7 +123,7 @@ $$
 iv = ov * \frac{(1+i)^n * i}{(1 + i)^n - 1}
 $$
 
-Having the installment value we can calculate the total outstanding balance from the Loan.
+Having the installment value we can calculate the total outstanding balance from the Loan. This is the value that will appear when retrieving loans for which no payments were created.
 
 $$
 uv = iv * n
@@ -121,6 +138,24 @@ $$
 
 ## API documentation
 
+### Endpoints
+
+Here is a list of the endpoints. If you need more details you can continue reading the documentation.
+
+| Action | Endpoint | Method | Status Code | URL Example |
+| --- | --- | --- | --- | --- |
+| Generate token | `/api-auth-token/` | POST | - | `http://127.0.0.1:8000/api-auth-token/` |
+| Create Loan | `/api/loans/` | POST | 201 | `http://127.0.0.1:8000/api/loans/` |
+| Retrieve Loan | `/api/loans/{loan_id}` | GET | 200 | `http://127.0.0.1:8000/api/loans/1/` |
+| List loans | `/api/loans/` | GET | 200 | `http://127.0.0.1:8000/api/loans/` |
+| Update Loan | `/api/loans/{loan_id}` | PUT | 200 | `http://127.0.0.1:8000/api/loans/1/` |
+| Delete Loan | `/api/loans/{loan_id}` | DELETE | 204 | `http://127.0.0.1:8000/api/loans/1/` |
+| Create payment | `/api/payments/` | POST | 201 | `http://127.0.0.1:8000/api/payments/` | - |
+| Retrieve payment | `/api/payments/{payment_id}` | GET | 200 | `http://127.0.0.1:8000/api/payments/1/` |
+| List payments | `/api/payments/` | GET | 200 | `http://127.0.0.1:8000/api/payments/` |
+| Update payment | `/api/payments/{payment_id}` | PUT | 200 | `http://127.0.0.1:8000/api/payments/1/` |
+| Delete payment | `/api/payments/{payment_id}` | DELETE | 204 | `http://127.0.0.1:8000/api/payments/1/` |
+
 ### Authentication
 
 The authentication system used to build this API is the token authentication. This means that a token has to be created for a user to be able to make requests, and every request must be authenticated.
@@ -131,7 +166,7 @@ from rest_framework.authtoken.models import Token
 token = Token.objects.create(user=...)
 ```
 
-Another way of creating a token is making a POST request to the ```/api-auth-token/``` endpoint informing a valid username and password. Here is an example:
+Another way of creating a token is making a POST request to the `/api-auth-token/` endpoint informing a valid username and password. Here is an example:
 
 ```
 curl -H 'Content-Type: application/json' \
@@ -203,8 +238,6 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
     "unpaid_value": "$27.504,00"
 }
 ```
-
-#### Unpaid value
 
 It's important to note that the unpaid_value is the sum of the value and the interest, which is calculated based on the interest_rate, value and number of installments.
 
