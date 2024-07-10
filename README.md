@@ -20,7 +20,7 @@ You can check the project instructions/requirements [on this link](https://githu
 
 Or, if you prefer, you can also check [the original repository](https://github.com/onidata/vagas).
 
-
+<br></br>
 # Content
 
 - [Database models](https://github.com/fczanetti/loan_api?tab=readme-ov-file#database-models)
@@ -37,8 +37,8 @@ Or, if you prefer, you can also check [the original repository](https://github.c
     - [Updating a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#4---updating-a-loan)
     - [Deleting a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#5---deleting-a-loan)
 
-
-## Database models
+<br></br>
+# Database models
 
 ```mermaid
 classDiagram
@@ -67,8 +67,8 @@ classDiagram
     }
 ```
 
-
-## Folder structure
+<br></br>
+# Folder structure
 
 Some of the main folders and files.
 
@@ -97,18 +97,18 @@ Some of the main folders and files.
 |   |   |   ├── views.py
 ```
 
-
-## How to install and test
-
-In construction.
-
-
-## How to install and test with Docker
+<br></br>
+# How to install and test
 
 In construction.
 
+<br></br>
+# How to install and test with Docker
 
-## Outstanding balance calculation (unpaid value)
+In construction.
+
+<br></br>
+# Outstanding balance calculation (unpaid value)
 
 When a Loan in created, the value, interest rate and number of monthly installments have to be informed. Based on these information, the installment value and also the total outstanding value are calculated as follows:
 
@@ -135,28 +135,30 @@ $$
 uv = uv - pv
 $$
 
+<br></br>
+# API documentation
 
-## API documentation
-
-### Endpoints
+&nbsp;
+## Endpoints
 
 Here is a list of the endpoints. If you need more details you can continue reading the documentation.
 
-| Action | Endpoint | Method | Status Code | URL Example |
-| --- | --- | --- | --- | --- |
-| Generate token | `/api-auth-token/` | POST | - | `http://127.0.0.1:8000/api-auth-token/` |
-| Create Loan | `/api/loans/` | POST | 201 | `http://127.0.0.1:8000/api/loans/` |
-| Retrieve Loan | `/api/loans/{loan_id}` | GET | 200 | `http://127.0.0.1:8000/api/loans/1/` |
-| List loans | `/api/loans/` | GET | 200 | `http://127.0.0.1:8000/api/loans/` |
-| Update Loan | `/api/loans/{loan_id}` | PUT | 200 | `http://127.0.0.1:8000/api/loans/1/` |
-| Delete Loan | `/api/loans/{loan_id}` | DELETE | 204 | `http://127.0.0.1:8000/api/loans/1/` |
-| Create payment | `/api/payments/` | POST | 201 | `http://127.0.0.1:8000/api/payments/` | - |
-| Retrieve payment | `/api/payments/{payment_id}` | GET | 200 | `http://127.0.0.1:8000/api/payments/1/` |
-| List payments | `/api/payments/` | GET | 200 | `http://127.0.0.1:8000/api/payments/` |
-| Update payment | `/api/payments/{payment_id}` | PUT | 200 | `http://127.0.0.1:8000/api/payments/1/` |
-| Delete payment | `/api/payments/{payment_id}` | DELETE | 204 | `http://127.0.0.1:8000/api/payments/1/` |
+| Action | Endpoint | Method | Status Code |
+| --- | --- | :---: | :---: |
+| Generate token | `/api-auth-token/` | POST | - |
+| Create Loan | `/api/loans/` | POST | 201 |
+| Retrieve Loan | `/api/loans/{loan_id}` | GET | 200 |
+| List loans | `/api/loans/` | GET | 200 |
+| Update Loan | `/api/loans/{loan_id}` | PUT | 200 |
+| Delete Loan | `/api/loans/{loan_id}` | DELETE | 204 |
+| Create payment | `/api/payments/` | POST | 201 |
+| Retrieve payment | `/api/payments/{payment_id}` | GET | 200 |
+| List payments | `/api/payments/` | GET | 200 |
+| Update payment | `/api/payments/{payment_id}` | PUT | 200 |
+| Delete payment | `/api/payments/{payment_id}` | DELETE | 204 |
 
-### Authentication
+&nbsp;
+## Authentication
 
 The authentication system used to build this API is the token authentication. This means that a token has to be created for a user to be able to make requests, and every request must be authenticated.
 
@@ -183,10 +185,13 @@ curl -X GET http://127.0.0.1:8000/api/loans/ \
      -H 'Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b'
 ```
 
+&nbsp;
+## Making requests
 
+&nbsp;
 ### 1 - Creating a new Loan
 
-To create a new loan, send a POST request to ```/api/loans/``` informing the value, interest_rate, number of installments to quit the loan and bank ID. For example:
+To create a new loan, send a POST request to `/api/loans/` informing the value, interest_rate, number of installments to quit the loan and bank ID. For example:
 
 ```
 {
@@ -215,10 +220,10 @@ This request will create a Loan with value = 1.000,00, interest_rate of 2.5% per
 }
 ```
 
-
+&nbsp;
 ### 2 - Retrieving a specific Loan
 
-To retrieve a specific loan, we have to inform the it's ID in the url. For example, to retrieve the loan with ID = 1, we have to send a GET request to ```/api/loans/1/```. If successfull, the response will return with a 200 status code and in this format:
+To retrieve a specific loan, we have to inform the it's ID in the url. For example, to retrieve the loan with ID = 1, we have to send a GET request to `/api/loans/1/`. If successfull, the response will return with a 200 status code and in this format:
 
 ```
 {
@@ -241,10 +246,10 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
 
 It's important to note that the unpaid_value is the sum of the value and the interest, which is calculated based on the interest_rate, value and number of installments.
 
-
+&nbsp;
 ### 3 - Listing loans
 
-To list all loans, send a GET request to ```/api/loans/```. If successfull, the response will have a 200 status code and will look like this:
+To list all loans, send a GET request to `/api/loans/`. If successfull, the response will have a 200 status code and will look like this:
 
 ```
 {
@@ -285,10 +290,10 @@ To list all loans, send a GET request to ```/api/loans/```. If successfull, the 
 }
 ```
 
-
+&nbsp;
 ### 4 - Updating a Loan
 
-To update a Loan, we have to send a PUT request to ```/api/loans/{loan_id}/``` informing the ID of the Loan that we want to update. For example, if we need to update the Loan we created [on this step](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan) we have to send a request to ```/api/loans/5/``` as follows:
+To update a Loan, we have to send a PUT request to `/api/loans/{loan_id}/` informing the ID of the Loan that we want to update. For example, if we need to update the Loan we created [on this step](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan) we have to send a request to `/api/loans/5/` as follows:
 
 ```
 {
@@ -317,7 +322,99 @@ On this request we updated just the value, from 1.000,00 to 2.500,00. If success
 }
 ```
 
-
+&nbsp;
 ### 5 - Deleting a Loan
 
-To delete a Loan, send a DELETE request to ```/api/loans/{loan_id}/``` informing the ID of the Loan to be deleted. For example, to delete the Loan of ID = 5, this is the address: ```/api/loans/5/```. If successfull, a response with a 204 status code will return.
+To delete a Loan, send a DELETE request to `/api/loans/{loan_id}/` informing the ID of the Loan to be deleted. For example, to delete the Loan of ID = 5, this is the address: `/api/loans/5/`. If successfull, a response with a 204 status code will return.
+
+&nbsp;
+### 6 - Creating a payment
+
+To create a Payment, send a POST request to `/api/payments/`. You'll need the ID of the Loan you are creating a Payment for. The format has to look like this:
+
+```
+{
+    "loan": 1,
+    "value": 250
+}
+```
+
+In this case, you are creating a Payment for the Loan of ID = 1. If successfull a response will return with a 201 status code, and the format will be as follows:
+
+```
+{
+    "id": 5,
+    "loan": 1,
+    "payment_date": "2024-07-10",
+    "value": 250.0
+}
+```
+
+&nbsp;
+### 7 - Retrieving a Payment
+
+To retrieve a Payment you just need to send a GET request informing the Payment ID on the URL `/api/payments/{payment_id}/`. If successfull, a response with a 200 status code will return, and it will be its format:
+
+```
+{
+    "id": 5,
+    "loan": 1,
+    "payment_date": "2024-07-10",
+    "value": 250.0
+}
+```
+
+&nbsp;
+### 8 - Listing payments
+
+To list all the payments, send a GET request to `/api/payments/`. If successfull, the response will have a 200 status code and will look like this:
+
+```
+{
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 5,
+            "loan": 1,
+            "payment_date": "2024-07-10",
+            "value": 250.0
+        },
+        {
+            "id": 1,
+            "loan": 1,
+            "payment_date": "2024-07-08",
+            "value": 2750.4
+        }
+    ]
+}
+```
+
+&nbsp;
+### 9 - Updating a Payment
+
+To update a Payment, send a PUT request to `/api/payments/{payment_id}/` informing the ID of the Payment to be updated. You will also have to send the request on this format:
+
+```
+{
+    "loan": 1,
+    "value": 3000
+}
+```
+If successfull, the response will have a 200 status code and look like this:
+
+```
+{
+    "id": 1,
+    "loan": 1,
+    "payment_date": "2024-07-08",
+    "value": 2780.0
+}
+```
+
+&nbsp;
+### 10 - Deleting a Payment
+
+To delete a Payment just send a DELETE request to `/api/payments/{payment_id}/` informing the ID of the Payment to be deleted. If successfull there will be a response with a 204 status code.
+
