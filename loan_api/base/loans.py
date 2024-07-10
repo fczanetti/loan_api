@@ -27,7 +27,7 @@ def calculate_installment_value(loan: Loan):
     rate of a loan.
     """
     # Original value of the loan
-    pv = loan.value
+    ov = loan.value
 
     # Number of installments to quit the loan
     n = loan.installments
@@ -36,9 +36,9 @@ def calculate_installment_value(loan: Loan):
     i = loan.interest_rate / 100
 
     # Value of monthly payment/installments
-    p = pv * (((1 + i) ** n) * i) / (((1 + i) ** n) - 1)
+    iv = ov * (((1 + i) ** n) * i) / (((1 + i) ** n) - 1)
 
-    return round(p, 2)
+    return round(iv, 2)
 
 
 def calculate_unpaid_value(loan):

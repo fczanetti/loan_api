@@ -132,7 +132,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
 }
 
-# basic_auth = (
-#     REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'].insert(
-#         0, 'rest_framework.authentication.BasicAuthentication')
-# )
+basic_auth = (
+    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'].insert(
+        0, 'rest_framework.authentication.BasicAuthentication')
+)
