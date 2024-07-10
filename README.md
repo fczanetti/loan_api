@@ -10,9 +10,9 @@
 
 Welcome to Loan API. 
 
-This is an API that can be used to manage loans from banks to clients. The clients, once authenticated, are able to create, read, update and delete their loans. When creating a new loan, the client/user has to inform the value, interest rate and the bank responsible for loaning the money. Users can also insert payments to their loans informing the loan, payment date and value.
+This is an API that can be used to manage loans from banks to clients. The clients, once authenticated, are able to create, read, update and delete their loans. When creating a new loan, the client/user has to inform the value, interest rate and the bank responsible for loaning the money. Users can also create, read, update and delete payments related to their loans.
 
-When retrieving a loan, users can also view how much they still own to the bank, and this value is calculated based on the interest rate informed when creating the loan, how much was already paid and how long ago the loan was created.
+When retrieving a Loan, users can also view how much they still own to the bank, and this value is calculated based on the interest rate, value and number of installments informed when creating the loan. Also, if there is any payments related to the Loan retrieved, the owned value (unpaid value) will be discounted.
 
 **This API is still in construction, and more details will be inserted in the future.**
 
@@ -29,13 +29,20 @@ Or, if you prefer, you can also check [the original repository](https://github.c
 - [How to install and test with Docker](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test-with-docker)
 - [Outstanding balance calculation (unpaid value)](https://github.com/fczanetti/loan_api?tab=readme-ov-file#outstanding-balance-calculation-unpaid-value)
 - [API documentation](https://github.com/fczanetti/loan_api?tab=readme-ov-file#api-documentation)
+    - [Listing elements](https://github.com/fczanetti/loan_api?tab=readme-ov-file#listing-elements)
     - [Endpoints](https://github.com/fczanetti/loan_api?tab=readme-ov-file#endpoints)
     - [Authentication](https://github.com/fczanetti/loan_api?tab=readme-ov-file#authentication)
-    - [Creating a new Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan)
-    - [Retrieving a specific Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#2---retrieving-a-specific-loan)
-    - [Listing loans](https://github.com/fczanetti/loan_api?tab=readme-ov-file#3---listing-loans)
-    - [Updating a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#4---updating-a-loan)
-    - [Deleting a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#5---deleting-a-loan)
+    - [Making requests](https://github.com/fczanetti/loan_api?tab=readme-ov-file#making-requests)
+        - [Creating a new Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#1---creating-a-new-loan)
+        - [Retrieving a specific Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#2---retrieving-a-specific-loan)
+        - [Listing loans](https://github.com/fczanetti/loan_api?tab=readme-ov-file#3---listing-loans)
+        - [Updating a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#4---updating-a-loan)
+        - [Deleting a Loan](https://github.com/fczanetti/loan_api?tab=readme-ov-file#5---deleting-a-loan)
+        - [Creating a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#6---creating-a-payment)
+        - [Retrieving a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#7---retrieving-a-payment)
+        - [Listing payments](https://github.com/fczanetti/loan_api?tab=readme-ov-file#8---listing-payments)
+        - [Updating a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#9---updating-a-payment)
+        - [Deleting a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#10---deleting-a-payment)
 
 <br></br>
 # Database models
@@ -137,6 +144,11 @@ $$
 
 <br></br>
 # API documentation
+
+&nbsp;
+## Listing elements
+
+When listing loans or payments, for example, the number of results that will appear in a page is 10. If necessary you can change this behaviour by going to settings.py module. There will be a setting called REST_FRAMEWORK. It is a dictionary, and one of its keys is called PAGE_SIZE. You can then change the PAGE_SIZE value to something that is more appropriate you.
 
 &nbsp;
 ## Endpoints
