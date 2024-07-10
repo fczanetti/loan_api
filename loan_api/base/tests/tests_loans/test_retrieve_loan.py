@@ -5,6 +5,8 @@ from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_401_UNAU
 from rest_framework.test import APIClient
 from model_bakery import baker
 
+from loan_api.base.serializers import LoanSerializer
+
 
 @pytest.fixture
 def resp_retrieve_loan_authenticated_user_test_1(auth_client_user_test_1, loan_01):
@@ -24,6 +26,26 @@ def test_status_code_retrieve_loan(resp_retrieve_loan_authenticated_user_test_1)
     a 200 status code.
     """
     assert resp_retrieve_loan_authenticated_user_test_1.status_code == HTTP_200_OK
+
+
+def test_loan_format_in_response(resp_retrieve_loan_authenticated_user_test_1, loan_01):
+    """
+    Certifies that the loan is present in the response
+    and all necessary infos are shown.
+    """
+    serializer = LoanSerializer(loan_01)
+    loan_data = {'id': serializer.data['id'],
+                 'value': serializer.data['value'],
+                 'interest_rate': serializer.data['interest_rate'],
+                 'installments': serializer.data['installments'],
+                 'installment_value': serializer.data['installment_value'],
+                 'ip_address': serializer.data['ip_address'],
+                 'request_date': serializer.data['request_date'],
+                 'bank': serializer.data['bank'],
+                 'client': serializer.data['client'],
+                 'payment_set':  serializer.data['payment_set'],
+                 'unpaid_value': serializer.data['unpaid_value']}
+    assert resp_retrieve_loan_authenticated_user_test_1.json() == loan_data
 
 
 def test_retrieve_loan_from_other_client_not_found(auth_client_user_test_1, loan_02):

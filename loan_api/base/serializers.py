@@ -42,9 +42,8 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_value(self, value):
         """
-        Certifies that the value informed is positive
-        and greater than 0.
+        Certifies that the value informed is positive.
         """
         if not value > 0:
-            raise serializers.ValidationError('Make sure you informed a greater than zero value.')
+            raise serializers.ValidationError('Make sure you informed a positive value.')
         return value

@@ -26,7 +26,11 @@ def test_payment_present_in_response(resp_retrieve_payment_authenticated_user_te
     Certifies that the payment is present in the response.
     """
     serializer = PaymentSerializer(payment_loan_01)
-    assert resp_retrieve_payment_authenticated_user_test_1.json() == serializer.data
+    payment_data = {'id': serializer.data['id'],
+                    'loan': serializer.data['loan'],
+                    'payment_date': serializer.data['payment_date'],
+                    'value': serializer.data['value']}
+    assert resp_retrieve_payment_authenticated_user_test_1.json() == payment_data
 
 
 def test_user_1_can_not_retrieve_payments_from_user_2(loan_02, auth_client_user_test_1, payment_loan_02):
