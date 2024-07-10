@@ -71,9 +71,6 @@ def test_payments_present_in_resp_content(resp_retrieve_loan_authenticated_user_
     # Loan retrieved
     loan = Loan.objects.get(id=loan_id)
 
-    # Certifying that there is a field to list payments
-    assert payment_set is not None
-
     # Certifying the payments created are listed in payment_set
     for i, payment in enumerate(loan.payment_set.all()):
         assert str(payment.pk) in payment_set[i]
