@@ -91,7 +91,7 @@ In construction.
 In construction.
 
 
-## Outsanding balance calculation (unpaid value)
+## Outstanding balance calculation (unpaid value)
 
 When a Loan in created, the value, interest rate and number of monthly installments have to be informed. Based on these information, the installment value and also the total outstanding value are calculated as follows:
 
