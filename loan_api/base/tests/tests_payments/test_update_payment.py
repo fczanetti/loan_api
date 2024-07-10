@@ -72,4 +72,4 @@ def test_invalid_requests(auth_client_user_test_1, loan_01, loan_02, payment_loa
     assert resp_3.status_code == HTTP_400_BAD_REQUEST
 
     assert resp_4.status_code == HTTP_400_BAD_REQUEST
-    assert resp_4.json()['value'] == ['Make sure you informed a greater than zero value.']
+    assert resp_4.json()['value'] == ['Make sure you informed a positive value.']
