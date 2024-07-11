@@ -190,11 +190,11 @@ from rest_framework.authtoken.models import Token
 token = Token.objects.create(user=...)
 ```
 
-Another way of creating a token is making a POST request to the `/api-auth-token/` endpoint informing a valid username and password. Here is an example:
+Another way of creating a token is making a POST request to the `/api-auth-token/` endpoint informing a valid email and password. Here is an example:
 
 ```
 curl -H 'Content-Type: application/json' \
-     -d '{"username": "user", "password": "pass"}' \
+     -d '{"email": "user@email.com", "password": "pass"}' \
      -X POST http://127.0.0.1:8000/api-auth-token/
 ```
 
@@ -236,7 +236,7 @@ This request will create a Loan with value = 1.000,00, interest_rate of 2.5% per
     "ip_address": "127.0.0.1",
     "request_date": "2024-07-10",
     "bank": 1,
-    "client": "username",
+    "client": "email@email.com",
     "payment_set": [],
     "unpaid_value": "$1.076,25"
 }
@@ -257,7 +257,7 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
     "ip_address": "127.0.0.1",
     "request_date": "2024-07-08",
     "bank": 1,
-    "client": "username",
+    "client": "email@email.com",
     "payment_set": [
         "1 - $2750.40",
         "2 - $2750.40"
@@ -288,7 +288,7 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
             "ip_address": "127.0.0.1",
             "request_date": "2024-07-10",
             "bank": 1,
-            "client": "username",
+            "client": "email@email.com",
             "payment_set": [],
             "unpaid_value": "$1.076,25"
         },
@@ -301,7 +301,7 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
             "ip_address": "127.0.0.1",
             "request_date": "2024-07-08",
             "bank": 1,
-            "client": "username",
+            "client": "email@email.com",
             "payment_set": [
                 "1 - $2750.40",
                 "2 - $2750.40"
@@ -338,7 +338,7 @@ On this request we updated just the value, from 1.000,00 to 2.500,00. If success
     "ip_address": "127.0.0.1",
     "request_date": "2024-07-10",
     "bank": 1,
-    "client": "username",
+    "client": "email@email.com",
     "payment_set": [],
     "unpaid_value": "$2.690,60"
 }
