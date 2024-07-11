@@ -16,7 +16,7 @@ def create_loan(request):
 
         # Including ip_address and client when saving
         serializer.save(ip_address=request.stream.META.get('REMOTE_ADDR'),
-                        client=request.user.username)
+                        client=request.user.email)
         return serializer.instance
 
 
