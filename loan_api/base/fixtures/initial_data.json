@@ -1,0 +1,25 @@
+[
+  {
+    "model": "base.bank",
+    "pk": 1,
+    "fields": {
+      "name": "First Bank"
+    }
+  },
+  {
+    "model": "base.bank",
+    "pk": 2,
+    "fields": {
+      "name": "Second Bank"
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 1,
+    "fields": {
+      "email": "admin@admin.com",
+      "first_name": "Admin",
+      "password": "pbkdf2_sha256$720000$MaBcSNjpl2eDcM4LHPhC6W$Ykrkka5iUpChCmjfG0ZFX9+qbiOzQnAVwGVZoAG97+g="
+    }
+  }
+]
