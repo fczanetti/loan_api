@@ -194,7 +194,7 @@ Another way of creating a token is making a POST request to the `/api-auth-token
 
 ```
 curl -H 'Content-Type: application/json' \
-     -d '{"email": "user@email.com", "password": "pass"}' \
+     -d '{"username": "user@email.com", "password": "pass"}' \
      -X POST http://127.0.0.1:8000/api-auth-token/
 ```
 
