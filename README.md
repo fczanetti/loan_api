@@ -119,7 +119,78 @@ Some of the main folders and files.
 <br></br>
 # How to install and test
 
-In construction.
+You can follow the next steps to install and test this API. These steps consider you are using a Linux environment and Pipenv as the virtualenv management tool.
+
+1 - Clone this repository:
+
+```
+git clone git@github.com:fczanetti/loan_api.git
+```
+
+2 - Install the necessary libraries (default and development libraries):
+
+```
+pipenv sync -d
+```
+
+3 - Activate the virtual environment:
+
+```
+pipenv shell
+```
+
+4 - Copy the content from env-sample file inside contrib diretory to a new file called .env. This .env file has to be placed in the root diretory of the application.
+
+```
+cp contrib/env-sample .env
+```
+
+5 - Apply Django migrations:
+
+```
+python manage.py migrate
+```
+
+6 - At this point, if everything worked as expected, you are able to start Django server. The only problem is that you have neither a Bank nor a User created to make requests. You can create both manually using Django ORM or use the following command to populate the database with two Bank instances and a User:
+
+```
+python manage.py loaddata initial_data.json
+```
+
+User credentials:
+- email: admin@admin.com
+- password: admin
+
+Banks created:
+- id: 1
+- name: First Bank
+<br>
+<br>
+- id: 2
+- name: Second Bank
+
+7 - Start Django server:
+
+```
+python manage.py runserver
+```
+
+8 - With the credentials above and the server running you can, in another terminal, [create a token](https://github.com/fczanetti/loan_api?tab=readme-ov-file#authentication) and start testing the API by [making requests](https://github.com/fczanetti/loan_api?tab=readme-ov-file#making-requests).
+
+9 - This quick example shows how to make a POST request to create your first Loan. You can use the same terminal you used to create your token, just remember to insert it in the request header:
+
+```
+curl -H 'Content-Type: application/json' \
+     -H 'Authorization: Token INSERT_THE_TOKEN_CREATED_HERE' \
+     -d '{"value": 1000, "interest_rate": 2.5, "installments": 10, "bank": 1}' \
+     -X POST http://127.0.0.1:8000/api/loans/
+```
+
+10 - Finally, to run the tests, just use this command:
+
+```
+pytest
+```
 
 <br></br>
 # How to install and test with Docker
