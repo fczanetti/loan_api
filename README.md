@@ -161,13 +161,7 @@ User credentials:
 - email: admin@admin.com
 - password: admin
 
-Banks created:
-- id: 1
-- name: First Bank
-<br>
-<br>
-- id: 2
-- name: Second Bank
+The Bank instances created have ID's 1 and 2, and that is enough for now.
 
 7 - Start Django server:
 
