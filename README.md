@@ -107,6 +107,8 @@ Some of the main folders and files.
 |   |   |   ├── 📂 tests
 |   |   |   ├── ├── 📂 tests_loans
 |   |   |   ├── ├── 📂 tests_payments
+|   |   |   ├── 📂 fixtures
+|   |   |   ├── ├── initial_data.json
 |   |   |   ├── admin.py
 |   |   |   ├── loans.py
 |   |   |   ├── models.py
