@@ -35,7 +35,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         Certifies that the loan informed belongs to
         the user creating the payment.
         """
-        client = self.context['request'].user.username
+        client = self.context['request'].user.email
         if not Loan.objects.filter(client=client).filter(id=value.id).exists():
             raise serializers.ValidationError('Make sure you informed a valid loan ID.')
         return value

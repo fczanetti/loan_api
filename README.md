@@ -51,26 +51,36 @@ Or, if you prefer, you can also check [the original repository](https://github.c
 classDiagram
 
     Loan "*" <--> "1" Bank
-    Payment "*" <--> "1" Loan
+    Loan "1" <--> "*" Payment
 
     class Bank {
+        - id: ~int~
         - name: ~string~
     }
 
     class Loan {
+        - id: ~int~
         - value: ~int~
         - interest_rate: ~float~
         - ip_address: ~string~
         - request_date: ~date~
-        - bank - ~int~
-        - client - ~string~
-        - installments - ~int~
+        - bank id: ~int~ FK
+        - client: ~string~
+        - installments: ~int~
     }
 
     class Payment {
-        - loan: ~int~
+        - id: ~int~
+        - loan id: ~int~ FK
         - payment_date: ~date~
         - value: ~float~
+    }
+
+    class User {
+        - id: ~int~
+        - email: ~email~ unique
+        - first_name: ~string~
+        - password: ~string~
     }
 ```
 

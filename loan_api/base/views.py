@@ -12,7 +12,7 @@ class LoanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        client = user.username
+        client = user.email
         return Loan.objects.filter(client=client).prefetch_related('payment_set').order_by('-request_date')
 
     def create(self, request, *args, **kwargs):
@@ -26,5 +26,5 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        client = user.username
+        client = user.email
         return Payment.objects.filter(loan__client=client).order_by('-payment_date')

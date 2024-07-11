@@ -38,8 +38,8 @@ def test_payments_from_other_users_not_present(resp_list_payments_authenticated_
     """
     Certifies that only payments from the requesting user are present.
     """
-    payment_01 = Payment.objects.filter(loan__client='User Test 1').first()
-    payment_02 = Payment.objects.filter(loan__client='User Test 2').first()
+    payment_01 = Payment.objects.filter(loan__client='user_01@email.com').first()
+    payment_02 = Payment.objects.filter(loan__client='user_02@email.com').first()
     serializer_01 = PaymentSerializer(payment_01)
     serializer_02 = PaymentSerializer(payment_02)
     assert serializer_01.data in resp_list_payments_authenticated_user_test_1.json()['results']
