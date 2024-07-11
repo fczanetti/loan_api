@@ -268,6 +268,8 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
 
 It's important to note that the unpaid_value is the sum of the value and the interest, which is calculated based on the interest_rate, value and number of installments.
 
+Also, on the payment_set field, the format of the payments shown is "ID - payment.value". This is the ID you have to use if you need to retrieve a payment.
+
 &nbsp;
 ### 3 - Listing loans
 
