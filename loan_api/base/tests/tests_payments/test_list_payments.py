@@ -1,7 +1,7 @@
 import pytest
 from model_bakery import baker
 
-from loan_api.base.models import Payment
+from loan_api.base.models import Payment, Loan
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from rest_framework.test import APIClient
 from loan_api.base.serializers import PaymentSerializer
@@ -54,3 +54,21 @@ def test_unauthenticated_request_not_authorized(db):
     client = APIClient()
     resp = client.get('/api/payments/')
     assert resp.status_code == HTTP_401_UNAUTHORIZED
+
+
+def test_filter_payments_by_loan_id(auth_client_user_test_1, loan_01):
+    """
+    Certifies payments can be filtered by loan id.
+    """
+    new_loan = baker.make(Loan, client='user_01@email.com')
+
+    payment_1 = Payment.objects.create(loan=loan_01, value=25)
+    new_payment = Payment.objects.create(loan=new_loan, value=35)
+
+    serializer_1 = PaymentSerializer(payment_1)
+    serializer_new_payment = PaymentSerializer(new_payment)
+
+    resp = auth_client_user_test_1.get(f'/api/payments/?loan={loan_01.pk}')
+
+    assert serializer_1.data in resp.json()['results']
+    assert serializer_new_payment.data not in resp.json()['results']

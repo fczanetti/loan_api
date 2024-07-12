@@ -27,4 +27,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         client = user.email
+        loan_id = self.request.query_params.get('loan')
+        if loan_id is not None:
+            return Payment.objects.filter(loan__client=client).filter(loan__id=loan_id).order_by('-payment_date')
         return Payment.objects.filter(loan__client=client).order_by('-payment_date')
