@@ -1,3 +1,8 @@
 SECRET_KEY=secret
 DEBUG=True
 ALLOWED_HOSTS=127.0.0.1, localhost,
+
+DATABASE_URL=postgres://loanuser:loanpass@localhost:5432/loandb
+POSTGRES_PASSWORD=loanpass
+POSTGRES_USER=loanuser
+POSTGRES_DB=loandb
