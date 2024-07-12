@@ -304,8 +304,8 @@ This request will create a Loan with value = 1.000,00, interest_rate of 2.5% per
     "request_date": "2024-07-10",
     "bank": 1,
     "client": "email@email.com",
-    "payment_set": [],
-    "unpaid_value": "$1.076,25"
+    "payment_sum": 0,
+    "unpaid_value": 1076,25
 }
 ```
 
@@ -325,17 +325,12 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
     "request_date": "2024-07-08",
     "bank": 1,
     "client": "email@email.com",
-    "payment_set": [
-        "1 - $2750.40",
-        "2 - $2750.40"
-    ],
-    "unpaid_value": "$27.504,00"
+    "payment_sum": 5500.8,
+    "unpaid_value": 27504,00
 }
 ```
 
 It's important to note that the unpaid_value is the sum of the value and the interest, which is calculated based on the interest_rate, value and number of installments.
-
-Also, on the payment_set field, the format of the payments shown is "ID - payment.value". This is the ID you have to use if you need to retrieve a payment.
 
 &nbsp;
 ### 3 - Listing loans
@@ -358,8 +353,8 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
             "request_date": "2024-07-10",
             "bank": 1,
             "client": "email@email.com",
-            "payment_set": [],
-            "unpaid_value": "$1.076,25"
+            "payment_sum": 0,
+            "unpaid_value": 1076,25
         },
         {
             "id": 1,
@@ -371,11 +366,8 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
             "request_date": "2024-07-08",
             "bank": 1,
             "client": "email@email.com",
-            "payment_set": [
-                "1 - $2750.40",
-                "2 - $2750.40"
-            ],
-            "unpaid_value": "$27.504,00"
+            "payment_sum": 5500.8,
+            "unpaid_value": 27504,00
         }
     ]
 }
@@ -408,8 +400,8 @@ On this request we updated just the value, from 1.000,00 to 2.500,00. If success
     "request_date": "2024-07-10",
     "bank": 1,
     "client": "email@email.com",
-    "payment_set": [],
-    "unpaid_value": "$2.690,60"
+    "payment_sum": 0,
+    "unpaid_value": 2690,60
 }
 ```
 

@@ -31,4 +31,4 @@ def test_calc_unpaid_value(loan_test_calc):
     """
     baker.make(Payment, value=2_750.40, loan=loan_test_calc)
     unpaid_value = calculate_unpaid_value(loan_test_calc)
-    assert unpaid_value == '$30.254,40'
+    assert unpaid_value == 30254.40
