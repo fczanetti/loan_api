@@ -10,11 +10,9 @@
 
 Welcome to Loan API. 
 
-This is an API that can be used to manage loans from banks to clients. The clients, once authenticated, are able to create, read, update and delete their loans. When creating a new loan, the client/user has to inform the value, interest rate and the bank responsible for loaning the money. Users can also create, read, update and delete payments related to their loans.
+This is an API that can be used to manage loans from banks to clients. The clients, once authenticated, are able to create, read, update and delete their loans. When creating a new Loan, the client/user has to inform the value, interest rate, number of installments to quit the Loan and the bank responsible for loaning the money. Users can also create, read, update and delete payments related to their loans.
 
 When retrieving a Loan, users can also view how much they still own to the bank, and this value is calculated based on the interest rate, value and number of installments informed when creating the loan. Also, if there is any payments related to the Loan retrieved, the owned value (unpaid value) will be discounted.
-
-**This API is still in construction, and more details will be inserted in the future.**
 
 You can check the project instructions/requirements [on this link](https://github.com/fczanetti/loan_api/blob/main/project_instructions.md). 
 
@@ -191,7 +189,33 @@ pytest
 <br></br>
 # How to install and test with Docker
 
-In construction.
+1 - To install using Docker we can start by following the steps 1 to 4 of [this tutorial](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test). But, this time, we are neither removing nor commenting the DATABASE_URL environment variable from our .env file.
+
+2 - Having the .env file created, we can start the containers:
+
+```
+docker compose up -d
+```
+
+A '.pgdata/' directory will be created in the root of the application, and this is where our database data will be stored.
+
+3 - Now we can load some initial data (one User and two Bank instances) in our database, this time running the command inside the LOAN_API_APP container:
+
+```
+docker exec <CONTAINER_ID> python manage.py loaddata initial_data.json
+```
+
+You can use the credentials from the User created to [create a token](https://github.com/fczanetti/loan_api?tab=readme-ov-file#authentication) and start testing requests.
+- email: admin@admin.com
+- password: admin
+
+4 - To run the tests you can use this command:
+
+```
+docker exec <CONTAINER_ID> pytest
+```
+
+That's it. If everything worked fine the application is already running and you can start making requests.
 
 <br></br>
 # Outstanding balance calculation (unpaid value)
