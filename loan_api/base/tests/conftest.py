@@ -2,7 +2,8 @@ import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
 
-from loan_api.base.models import Loan, Bank, Payment, User
+from loan_api.base.models import Loan, Bank, Payment
+from django.contrib.auth import get_user_model
 
 
 @pytest.fixture
@@ -10,6 +11,7 @@ def users(db):
     """
     Creates and returns 2 users.
     """
+    User = get_user_model()
     names = ['user_01@email.com', 'user_02@email.com']
     return [User.objects.create(email=name, password='userpass') for name in names]
 
@@ -20,6 +22,7 @@ def auth_client_user_test_1(users):
     Authenticate user user_01@email.com and
     returns an authenticated client.
     """
+    User = get_user_model()
     user_01 = User.objects.get(email='user_01@email.com')
     client = APIClient()
     client.force_authenticate(user=user_01)
