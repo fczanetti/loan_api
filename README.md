@@ -43,6 +43,7 @@ Or, if you prefer, you can also check [the original repository](https://github.c
         - [Listing payments](https://github.com/fczanetti/loan_api?tab=readme-ov-file#8---listing-payments)
         - [Updating a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#9---updating-a-payment)
         - [Deleting a Payment](https://github.com/fczanetti/loan_api?tab=readme-ov-file#10---deleting-a-payment)
+        - [Filtering payments by loan ID](https://github.com/fczanetti/loan_api?tab=readme-ov-file#11---filtering-payments-by-loan-id)
 
 <br></br>
 # Database models
@@ -245,6 +246,7 @@ Here is a list of the endpoints. If you need more details you can continue readi
 | List payments | `/api/payments/` | GET | 200 |
 | Update payment | `/api/payments/{payment_id}` | PUT | 200 |
 | Delete payment | `/api/payments/{payment_id}` | DELETE | 204 |
+| Filter payments by Loan ID| `/api/payments/?loan={loan_id}` | GET | 200 |
 
 &nbsp;
 ## Authentication
@@ -501,3 +503,7 @@ If successfull, the response will have a 200 status code and look like this:
 
 To delete a Payment just send a DELETE request to `/api/payments/{payment_id}/` informing the ID of the Payment to be deleted. If successfull there will be a response with a 204 status code.
 
+&nbsp;
+### 11 - Filtering payments by Loan ID
+
+If you need to list only the payments related to a specific Loan you can send a GET request to `/api/payments/?loan={loan_id}` informing the ID of the Loan from which you wish to see the payments. If successfull a 200 status code response will return, and the format will be the same as in [step number 8](https://github.com/fczanetti/loan_api?tab=readme-ov-file#8---listing-payments).
