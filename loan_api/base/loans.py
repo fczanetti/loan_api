@@ -1,4 +1,5 @@
 from loan_api.base.models import Loan
+from django.db.models import Sum
 
 
 def create_loan(request):
@@ -46,8 +47,6 @@ def calculate_unpaid_value(loan):
     Calculates the total unpaid value for a loan
     discounting the amount already paid.
     """
-    paid_value = 0
-
     # Value of each installment
     installment_value = calculate_installment_value(loan)
 
@@ -55,7 +54,6 @@ def calculate_unpaid_value(loan):
     total_value = installment_value * loan.installments
 
     # Retrieving what was already paid
-    for payment in loan.payment_set.all():
-        paid_value += payment.value
+    paid_value = loan.payment_set.aggregate(Sum("value", default=0))['value__sum']
 
     return f'${total_value - paid_value:_.2f}'.replace('.', ',').replace('_', '.')
