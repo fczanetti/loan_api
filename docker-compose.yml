@@ -8,3 +8,28 @@ services:
     env_file: .env
     ports:
       - 5432:5432
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: loan_api_app
+    build:
+      context: .
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://loanuser:loanpass@database:5432/loandb
+    command: ./start.sh
+    depends_on:
+      database:
+        condition: service_healthy

@@ -145,6 +145,7 @@ pipenv shell
 ```
 cp contrib/env-sample .env
 ```
+As we are not using Docker on this tutorial, you have to comment or remove the environment variable DATABASE_URL in your .env file.
 
 5 - Apply Django migrations:
 

@@ -11,6 +11,7 @@ djangorestframework = "*"
 django-debug-toolbar = "*"
 dj-database-url = "*"
 psycopg2 = "*"
+gunicorn = "*"
 
 [dev-packages]
 flake8 = "*"
