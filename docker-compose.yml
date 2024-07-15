@@ -24,12 +24,21 @@ services:
       context: .
     volumes:
       - .:/code
-    ports:
-      - 8000:8000
     env_file: .env
     environment:
       DATABASE_URL: postgres://loanuser:loanpass@database:5432/loandb
-    command: ./start.sh
     depends_on:
       database:
         condition: service_healthy
+
+  nginx:
+    container_name: loan_api_nginx
+    image: nginx:1.27.0
+    restart: no
+    ports:
+      - 8000:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./staticfiles:/code/staticfiles  # mapping staticfiles so nginx can find them to serve;
+    depends_on:
+      - app
