@@ -98,6 +98,8 @@ Some of the main folders and files.
 |   ├── .flake8
 |   ├── pytest.ini
 |   ├── README.md
+|   ├── 📂 nginx
+|   |   ├── nginx.conf
 |   ├── 📂 loan_api
 |   |   ├── urls.py
 |   |   ├── settings.py
