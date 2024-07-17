@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pytest
 from model_bakery import baker
 
@@ -21,7 +23,7 @@ def test_installment_value(loan_test_calc):
     is calculated correctly.
     """
     installment_value = calculate_installment_value(loan_test_calc)
-    assert installment_value == 2_750.40
+    assert installment_value == Decimal('2750.40')
 
 
 def test_calc_unpaid_value(loan_test_calc):
@@ -31,4 +33,4 @@ def test_calc_unpaid_value(loan_test_calc):
     """
     baker.make(Payment, value=2_750.40, loan=loan_test_calc)
     unpaid_value = calculate_unpaid_value(loan_test_calc)
-    assert unpaid_value == 30254.40
+    assert unpaid_value == Decimal('30254.40')

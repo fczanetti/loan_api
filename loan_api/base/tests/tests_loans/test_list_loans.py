@@ -28,8 +28,8 @@ def test_correct_loans_present_in_response(resp_list_loans_authenticated_user_te
     """
     serializer_01 = LoanSerializer(loan_01)
     serializer_02 = LoanSerializer(loan_02)
-    assert serializer_01.data in resp_list_loans_authenticated_user_test_1.json()['results']
-    assert serializer_02.data not in resp_list_loans_authenticated_user_test_1.json()['results']
+    assert serializer_01.data in resp_list_loans_authenticated_user_test_1.data['results']
+    assert serializer_02.data not in resp_list_loans_authenticated_user_test_1.data['results']
 
 
 def test_unauthenticated_user_request_unauthorized(db):

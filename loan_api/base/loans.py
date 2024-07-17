@@ -1,4 +1,7 @@
-from loan_api.base.models import Loan
+from decimal import Decimal
+
+from loan_api.base.models import Loan, Payment
+from django.db.models import Sum
 
 
 def create_loan(request):
@@ -27,16 +30,19 @@ def calculate_installment_value(loan: Loan):
     rate of a loan.
     """
     # Original value of the loan
-    ov = loan.value
+    ov = Decimal(loan.value)
 
     # Number of installments to quit the loan
-    n = loan.installments
+    n = Decimal(loan.installments)
 
     # Interest rate agreed
-    i = loan.interest_rate / 100
+    i = Decimal(loan.interest_rate) / Decimal('100')
+
+    numerator = Decimal((((1 + i) ** n) * i))
+    denominator = Decimal((((1 + i) ** n) - 1))
 
     # Value of monthly payment/installments
-    iv = ov * (((1 + i) ** n) * i) / (((1 + i) ** n) - 1)
+    iv = ov * numerator / denominator
 
     return round(iv, 2)
 
@@ -53,10 +59,11 @@ def calculate_unpaid_value(loan):
     total_value = installment_value * loan.installments
 
     # Retrieving what was already paid
-
-    # paid_value = loan.payment_set.aggregate(Sum("value", default=0))['value__sum']
-    paid_value = 0
-    for payment in loan.payment_set.all():
-        paid_value += payment.value
-
-    return round(total_value - paid_value, 2)
+    # When a Loan object is not serialized through a GET
+    # request the attribute 'sum' is not created, that's
+    # why this conditional was created. It happens in
+    # some tests
+    if hasattr(loan, 'sum'):
+        return total_value - loan.sum
+    paid_value = Payment.objects.filter(loan=loan).aggregate(Sum('value', default=0))['value__sum']
+    return total_value - paid_value

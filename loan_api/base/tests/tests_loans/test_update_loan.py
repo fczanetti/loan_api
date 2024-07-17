@@ -32,7 +32,7 @@ def test_updated_loan_returned_in_response(resp_update_loan_authenticated_user_t
     """
     loan = Loan.objects.filter(client='user_01@email.com').filter(value=110).first()
     serializer = LoanSerializer(loan)
-    assert resp_update_loan_authenticated_user_test_1.json() == serializer.data
+    assert resp_update_loan_authenticated_user_test_1.data == serializer.data
 
 
 def test_user_1_can_not_update_loan_from_user_2(auth_client_user_test_1, loan_02, bank):

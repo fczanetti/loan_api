@@ -45,7 +45,7 @@ def test_loan_format_in_response(resp_retrieve_loan_authenticated_user_test_1, l
                  'client': serializer.data['client'],
                  'payment_sum':  serializer.data['payment_sum'],
                  'unpaid_value': serializer.data['unpaid_value']}
-    assert resp_retrieve_loan_authenticated_user_test_1.json() == loan_data
+    assert resp_retrieve_loan_authenticated_user_test_1.data == loan_data
     assert serializer.data['payment_sum'] == 110
 
 
