@@ -59,7 +59,7 @@ classDiagram
 
     class Loan {
         - id: ~int~
-        - value: ~int~
+        - value: ~decimal~
         - interest_rate: ~float~
         - ip_address: ~string~
         - request_date: ~date~
@@ -72,7 +72,7 @@ classDiagram
         - id: ~int~
         - loan id: ~int~ FK
         - payment_date: ~date~
-        - value: ~float~
+        - value: ~decimal~
     }
 
     class User {
