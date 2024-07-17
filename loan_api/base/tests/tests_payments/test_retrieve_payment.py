@@ -23,7 +23,10 @@ def test_status_code_retrieve_payment(resp_retrieve_payment_authenticated_user_t
 
 def test_payment_present_in_response(resp_retrieve_payment_authenticated_user_test_1, payment_loan_01):
     """
-    Certifies that the payment is present in the response.
+    Certifies that:
+    - the payment is present in the response;
+    - all necessary fields are shown;
+    - value is returned as a float instance.
     """
     serializer = PaymentSerializer(payment_loan_01)
     payment_data = {'id': serializer.data['id'],
@@ -31,6 +34,7 @@ def test_payment_present_in_response(resp_retrieve_payment_authenticated_user_te
                     'payment_date': serializer.data['payment_date'],
                     'value': serializer.data['value']}
     assert resp_retrieve_payment_authenticated_user_test_1.json() == payment_data
+    assert isinstance(serializer.data['value'], float)
 
 
 def test_user_1_can_not_retrieve_payments_from_user_2(loan_02, auth_client_user_test_1, payment_loan_02):

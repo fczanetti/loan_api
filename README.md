@@ -325,7 +325,7 @@ This request will create a Loan with value = 1.000,00, interest_rate of 2.5% per
 ```
 {
     "id": 5,
-    "value": 1000,
+    "value": 1000.0,
     "interest_rate": 2.5,
     "installments": 5,
     "installment_value": 215.25,
@@ -346,7 +346,7 @@ To retrieve a specific loan, we have to inform the it's ID in the url. For examp
 ```
 {
     "id": 1,
-    "value": 30000,
+    "value": 30000.0,
     "interest_rate": 1.5,
     "installments": 12,
     "installment_value": 2750.4,
@@ -374,7 +374,7 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
     "results": [
         {
             "id": 5,
-            "value": 1000,
+            "value": 1000.0,
             "interest_rate": 2.5,
             "installments": 5,
             "installment_value": 215.25,
@@ -387,7 +387,7 @@ To list all loans, send a GET request to `/api/loans/`. If successfull, the resp
         },
         {
             "id": 1,
-            "value": 30000,
+            "value": 30000.0,
             "interest_rate": 1.5,
             "installments": 12,
             "installment_value": 2750.4,
@@ -421,7 +421,7 @@ On this request we updated just the value, from 1.000,00 to 2.500,00. If success
 ```
 {
     "id": 5,
-    "value": 2500,
+    "value": 2500.0,
     "interest_rate": 2.5,
     "installments": 5,
     "installment_value": 538.12,
