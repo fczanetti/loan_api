@@ -5,6 +5,7 @@ from loan_api.base.models import Loan, Payment
 from loan_api.base.serializers import LoanSerializer, PaymentSerializer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
+from django.db.models import Sum
 
 
 class LoanViewSet(viewsets.ModelViewSet):
@@ -13,7 +14,9 @@ class LoanViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         client = user.email
-        return Loan.objects.filter(client=client).prefetch_related('payment_set').order_by('-request_date')
+        return (Loan.objects.filter(client=client).
+                annotate(sum=Sum('payments__value', default=0)).
+                order_by('-request_date'))
 
     def create(self, request, *args, **kwargs):
         new_loan = create_loan(self.request)

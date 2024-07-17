@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from loan_api.base.loans import calculate_unpaid_value, calculate_installment_value
 from loan_api.base.models import Loan, Bank, Payment
+from django.db.models import Sum
 
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -23,11 +24,14 @@ class LoanSerializer(serializers.ModelSerializer):
         return calculate_installment_value(obj)
 
     def get_payment_sum(self, obj):
-        # payment_sum = obj.payment_set.aggregate(Sum("value", default=0))['value__sum']
-        payment_sum = 0
-        for payment in obj.payment_set.all():
-            payment_sum += payment.value
-        return round(payment_sum, 2)
+        # When a Loan object is not serialized through a GET
+        # request the attribute 'sum' is not created, that's
+        # why this conditional was created. It happens in
+        # some tests
+        if hasattr(obj, 'sum'):
+            return obj.sum
+        payment_sum = obj.payments.aggregate(Sum("value", default=0))['value__sum']
+        return payment_sum
 
 
 class PaymentSerializer(serializers.ModelSerializer):
