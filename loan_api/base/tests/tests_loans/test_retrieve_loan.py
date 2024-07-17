@@ -30,8 +30,10 @@ def test_status_code_retrieve_loan(resp_retrieve_loan_authenticated_user_test_1)
 
 def test_loan_format_in_response(resp_retrieve_loan_authenticated_user_test_1, loan_01):
     """
-    Certifies that the loan is present in the response
-    and all necessary infos are shown.
+    Certifies that:
+    - the loan is present in the response and all necessary infos are shown;
+    - sum of payments is correct;
+    - the value is returned as a float instance;
     """
     serializer = LoanSerializer(loan_01)
     loan_data = {'id': serializer.data['id'],
@@ -47,6 +49,7 @@ def test_loan_format_in_response(resp_retrieve_loan_authenticated_user_test_1, l
                  'unpaid_value': serializer.data['unpaid_value']}
     assert resp_retrieve_loan_authenticated_user_test_1.data == loan_data
     assert serializer.data['payment_sum'] == 110
+    assert isinstance(serializer.data['value'], float)
 
 
 def test_retrieve_loan_from_other_client_not_found(auth_client_user_test_1, loan_02):

@@ -33,6 +33,14 @@ class LoanSerializer(serializers.ModelSerializer):
         payment_sum = obj.payments.aggregate(Sum("value", default=0))['value__sum']
         return payment_sum
 
+    def to_representation(self, instance):
+        """
+        Represent value as a float instead of string.
+        """
+        ret = super().to_representation(instance)
+        ret['value'] = float(ret['value'])
+        return ret
+
 
 class PaymentSerializer(serializers.ModelSerializer):
     loan = serializers.PrimaryKeyRelatedField(queryset=Loan.objects.all())
@@ -58,3 +66,11 @@ class PaymentSerializer(serializers.ModelSerializer):
         if not value > 0:
             raise serializers.ValidationError('Make sure you informed a positive value.')
         return value
+
+    def to_representation(self, instance):
+        """
+        Represent value as a float instead of string.
+        """
+        ret = super().to_representation(instance)
+        ret['value'] = float(ret['value'])
+        return ret
