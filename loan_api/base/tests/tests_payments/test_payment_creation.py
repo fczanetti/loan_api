@@ -61,17 +61,20 @@ def test_invalid_input(auth_client_user_test_1, loan_01):
     Certifies invalid inputs return a
     bad request (400) response.
     """
-    data_01 = {'loan': 5, 'value': 100}           # Invalid loan ID;
-    data_02 = {'loan': '', 'value': 100}          # Invalid loan ID;
-    data_03 = {'loan': loan_01.pk, 'value': 'a'}  # Invalid value;
-    data_04 = {}                                  # Invalid data;
+    data_01 = {'loan': 5, 'value': 100}            # Invalid loan ID;
+    data_02 = {'loan': '', 'value': 100}           # Invalid loan ID;
+    data_03 = {'loan': loan_01.pk, 'value': 'a'}   # Invalid value;
+    data_04 = {}                                   # Invalid data;
+    data_05 = {'loan': loan_01.pk, 'value': -100}  # Value must be positive;
 
     resp_01 = auth_client_user_test_1.post('/api/payments/', data=data_01)
     resp_02 = auth_client_user_test_1.post('/api/payments/', data=data_02)
     resp_03 = auth_client_user_test_1.post('/api/payments/', data=data_03)
     resp_04 = auth_client_user_test_1.post('/api/payments/', data=data_04)
+    resp_05 = auth_client_user_test_1.post('/api/payments/', data=data_05)
 
     assert resp_01.status_code == HTTP_400_BAD_REQUEST
     assert resp_02.status_code == HTTP_400_BAD_REQUEST
     assert resp_03.status_code == HTTP_400_BAD_REQUEST
     assert resp_04.status_code == HTTP_400_BAD_REQUEST
+    assert resp_05.status_code == HTTP_400_BAD_REQUEST

@@ -8,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib import auth
 
+from loan_api.base.validators import positive_value
+
 
 class Bank(models.Model):
     name = models.CharField(max_length=64)
@@ -17,7 +19,7 @@ class Bank(models.Model):
 
 
 class Loan(models.Model):
-    value = models.DecimalField(max_digits=11, decimal_places=2)
+    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
     interest_rate = models.FloatField()
     ip_address = models.GenericIPAddressField()
     request_date = models.DateField(auto_now_add=True)
@@ -29,7 +31,7 @@ class Loan(models.Model):
 class Payment(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
     payment_date = models.DateField(auto_now_add=True)
-    value = models.DecimalField(max_digits=11, decimal_places=2)
+    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
 
     def __str__(self):
         return f'{self.pk} - ${self.value:.2f}'

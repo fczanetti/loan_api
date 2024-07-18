@@ -49,28 +49,32 @@ def test_requests_with_invalid_data(auth_client_user_test_1, bank):
     Also certifies that extra fields informed are
     just ignored.
     """
-    # Value must be positive;
-    # data_01 = {'value': -1, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
-    # Interest rate must be a valid number;
+    # Value must be positive
+    data_01 = {'value': -1, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
+    # Interest rate must be a valid number
     data_02 = {'value': 1, 'interest_rate': '', 'bank': bank.pk, 'installments': 1}
-    # The bank.pk must be valid (from an existing bank);
+    # The bank.pk must be valid (from an existing bank)
     data_03 = {'value': 1, 'interest_rate': 5, 'bank': 123, 'installments': 1}
-    # bank.pk must not be null;
+    # bank.pk must not be null
     data_04 = {'value': 1, 'interest_rate': 5, 'installments': 1}
-    # Extra fields are ignored.
+    # Extra fields are ignored
     data_05 = {'value': 1, 'interest_rate': 5, 'bank': bank.pk, 'extra_field': 'abc', 'installments': 1}
+    # Value must have no more than 2 decimal places
+    data_06 = {'value': 1.333, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
 
-    # resp_01 = auth_client_user_test_1.post('/api/loans/', data=data_01)
+    resp_01 = auth_client_user_test_1.post('/api/loans/', data=data_01)
     resp_02 = auth_client_user_test_1.post('/api/loans/', data=data_02)
     resp_03 = auth_client_user_test_1.post('/api/loans/', data=data_03)
     resp_04 = auth_client_user_test_1.post('/api/loans/', data=data_04)
     resp_05 = auth_client_user_test_1.post('/api/loans/', data=data_05)
+    resp_06 = auth_client_user_test_1.post('/api/loans/', data=data_06)
 
-    # assert resp_01.status_code == HTTP_400_BAD_REQUEST
+    assert resp_01.status_code == HTTP_400_BAD_REQUEST
     assert resp_02.status_code == HTTP_400_BAD_REQUEST
     assert resp_03.status_code == HTTP_400_BAD_REQUEST
     assert resp_04.status_code == HTTP_400_BAD_REQUEST
     assert resp_05.status_code == HTTP_201_CREATED
+    assert resp_06.status_code == HTTP_400_BAD_REQUEST
 
 
 def test_unauthenticated_user_can_not_create_loan():
