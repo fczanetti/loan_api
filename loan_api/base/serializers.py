@@ -59,14 +59,6 @@ class PaymentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Make sure you informed a valid loan ID.')
         return value
 
-    def validate_value(self, value):
-        """
-        Certifies that the value informed is positive.
-        """
-        if not value > 0:
-            raise serializers.ValidationError('Make sure you informed a positive value.')
-        return value
-
     def to_representation(self, instance):
         """
         Represent value as a float instead of string.
