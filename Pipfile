@@ -12,6 +12,7 @@ django-debug-toolbar = "*"
 dj-database-url = "*"
 psycopg2 = "*"
 gunicorn = "*"
+django-ipware = "*"
 
 [dev-packages]
 flake8 = "*"

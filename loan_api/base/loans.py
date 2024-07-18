@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from loan_api.base.models import Loan, Payment
 from django.db.models import Sum
+from ipware import get_client_ip
 
 
 def create_loan(request):
@@ -14,11 +15,14 @@ def create_loan(request):
     # Creating a copy so data can be edited.
     data = request.data.copy()
 
+    # Using django-ipware to get the ip address
+    ip_address, _ = get_client_ip(request)
+
     serializer = LoanSerializer(data=data)
     if serializer.is_valid(raise_exception=True):
 
         # Including ip_address and client when saving
-        serializer.save(ip_address=request.stream.META.get('REMOTE_ADDR'),
+        serializer.save(ip_address=ip_address,
                         client=request.user.email)
         return serializer.instance
 

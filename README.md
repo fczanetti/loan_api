@@ -25,6 +25,7 @@ Or, if you prefer, you can also check [the original repository](https://github.c
 - [Folder structure](https://github.com/fczanetti/loan_api?tab=readme-ov-file#folder-structure)
 - [How to install and test](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test)
 - [How to install and test with Docker](https://github.com/fczanetti/loan_api?tab=readme-ov-file#how-to-install-and-test-with-docker)
+- [NGINX](https://github.com/fczanetti/loan_api?tab=readme-ov-file#nginx)
 - [Outstanding balance calculation (unpaid value)](https://github.com/fczanetti/loan_api?tab=readme-ov-file#outstanding-balance-calculation-unpaid-value)
 - [API documentation](https://github.com/fczanetti/loan_api?tab=readme-ov-file#api-documentation)
     - [Listing elements](https://github.com/fczanetti/loan_api?tab=readme-ov-file#listing-elements)
@@ -221,6 +222,31 @@ docker exec <CONTAINER_ID> pytest
 That's it. If everything worked fine the application is already running and you can start making requests.
 
 <br></br>
+# NGINX
+
+It's important to mention that, when running the command `docker compose up -d`, you will also be starting an nginx container that works as a simple proxy and is responsible for serving static files. Because of this, the library [django-ipware](https://pypi.org/project/django-ipware/) was installed and used to get the client's ip_address when receiving new requests, and not the proxy's.
+
+```mermaid
+flowchart LR
+
+Client(Client)
+nginx("`nginx server
+(proxy)`")
+loan_api(Loan API)
+request_1("`request
+(originating/client IP)`")
+request_2("`request
+(client IP, proxy IP)`")
+
+style Client fill:#6f6f73
+style nginx fill:#6f6f73
+style loan_api fill:#6f6f73
+
+Client --- request_1 --> nginx --- request_2 --> loan_api
+
+```
+
+<br></br>
 # Outstanding balance calculation (unpaid value)
 
 When a Loan in created, the value, interest rate and number of monthly installments have to be informed. Based on these information, the installment value and also the total outstanding value are calculated as follows:
@@ -247,6 +273,19 @@ Finally, if some payments were already made, the value paid is discounted from t
 $$
 uv = uv - pv
 $$
+
+As a quick example, let's suppose you requested a loan of $10,000.00, interest rate of 1.5% per month and to be paid in 5 installments.
+
+|Month      |Installment value|Unpaid value |
+| :---:     | :---:           | :---:       |
+| 1         | 2,090.89        | 8,363.56    |
+| 2         | 2,090.89        | 6,272.67    |
+| 3         | 2,090.89        | 4,181.78    |
+| 4         | 2,090.89        | 2,090.89    |
+| 5         | 2,090.89        | 0           |
+| **Total** | **10,454.45**   | **-**       |
+
+The total value to be paid will be $10,454.45.
 
 <br></br>
 # API documentation
