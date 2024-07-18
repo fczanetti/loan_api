@@ -8,7 +8,7 @@ from loan_api.base.models import Loan, Payment
 
 
 @pytest.fixture
-def loan_test_calc(db):
+def loan_test_calc_1(db):
     """
     Creates and returns a loan to test
     calculating unpaid value and installments.
@@ -17,20 +17,33 @@ def loan_test_calc(db):
     return loan
 
 
-def test_installment_value(loan_test_calc):
+@pytest.fixture
+def loan_test_calc_2(db):
     """
-    Certifies that the installment value
-    is calculated correctly.
+    Creates and returns a loan to test
+    calculating unpaid value and installments.
     """
-    installment_value = calculate_installment_value(loan_test_calc)
-    assert installment_value == Decimal('2750.40')
+    loan = baker.make(Loan, value=10_588.36, interest_rate=1.47, installments=16)
+    return loan
 
 
-def test_calc_unpaid_value(loan_test_calc):
+def test_installment_value(loan_test_calc_1, loan_test_calc_2):
     """
-    Certifies that the unpaid value is
-    calculated correctly.
+    Certifies that the installment value is calculated correctly.
     """
-    baker.make(Payment, value=2_750.40, loan=loan_test_calc)
-    unpaid_value = calculate_unpaid_value(loan_test_calc)
-    assert unpaid_value == Decimal('30254.40')
+    installment_value_1 = calculate_installment_value(loan_test_calc_1)
+    installment_value_2 = calculate_installment_value(loan_test_calc_2)
+    assert installment_value_1 == Decimal('2750.40')
+    assert installment_value_2 == Decimal('747.47')
+
+
+def test_calc_unpaid_value(loan_test_calc_1, loan_test_calc_2):
+    """
+    Certifies that the unpaid value is calculated correctly.
+    """
+    baker.make(Payment, value=2_750.40, loan=loan_test_calc_1)
+    baker.make(Payment, value=747.47, loan=loan_test_calc_2)
+    unpaid_value_1 = calculate_unpaid_value(loan_test_calc_1)
+    unpaid_value_2 = calculate_unpaid_value(loan_test_calc_2)
+    assert unpaid_value_1 == Decimal('30254.40')
+    assert unpaid_value_2 == Decimal('11212.05')
