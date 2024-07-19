@@ -7,34 +7,9 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib import auth
+from django.contrib.auth import get_user_model
 
 from loan_api.base.validators import positive_value
-
-
-class Bank(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return f'{self.pk} - {self.name}'
-
-
-class Loan(models.Model):
-    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
-    interest_rate = models.FloatField()
-    ip_address = models.GenericIPAddressField()
-    request_date = models.DateField(blank=True)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    client = models.CharField(max_length=64)
-    installments = models.PositiveSmallIntegerField(verbose_name='Number of installments')
-
-
-class Payment(models.Model):
-    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
-    payment_date = models.DateField(blank=True)
-    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
-
-    def __str__(self):
-        return f'{self.pk} - ${self.value:.2f}'
 
 
 class UserManager(BaseUserManager):
@@ -153,3 +128,29 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class Bank(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f'{self.pk} - {self.name}'
+
+
+class Loan(models.Model):
+    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
+    interest_rate = models.FloatField()
+    ip_address = models.GenericIPAddressField()
+    request_date = models.DateField(blank=True)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    installments = models.PositiveSmallIntegerField(verbose_name='Number of installments')
+
+
+class Payment(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
+    payment_date = models.DateField(blank=True)
+    value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
+
+    def __str__(self):
+        return f'{self.pk} - ${self.value:.2f}'

@@ -13,8 +13,7 @@ class LoanViewSet(viewsets.ModelViewSet):
     serializer_class = LoanSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        client = user.email
+        client = self.request.user
         return (Loan.objects.filter(client=client).
                 annotate(sum=Sum('payments__value', default=0)).
                 order_by('-request_date'))
@@ -29,8 +28,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        client = user.email
+        client = self.request.user
         loan_id = self.request.query_params.get('loan')
         if loan_id is not None:
             return Payment.objects.filter(loan__client=client).filter(loan__id=loan_id).order_by('-payment_date')

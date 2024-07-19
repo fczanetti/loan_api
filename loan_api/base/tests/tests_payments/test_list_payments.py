@@ -7,6 +7,7 @@ from loan_api.base.models import Payment, Loan
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from rest_framework.test import APIClient
 from loan_api.base.serializers import PaymentSerializer
+from django.contrib.auth import get_user_model
 
 
 @pytest.fixture
@@ -40,8 +41,8 @@ def test_payments_from_other_users_not_present(resp_list_payments_authenticated_
     """
     Certifies that only payments from the requesting user are present.
     """
-    payment_01 = Payment.objects.filter(loan__client='user_01@email.com').first()
-    payment_02 = Payment.objects.filter(loan__client='user_02@email.com').first()
+    payment_01 = Payment.objects.filter(loan__client__email='user_01@email.com').first()
+    payment_02 = Payment.objects.filter(loan__client__email='user_02@email.com').first()
     serializer_01 = PaymentSerializer(payment_01)
     serializer_02 = PaymentSerializer(payment_02)
     assert serializer_01.data in resp_list_payments_authenticated_user_test_1.json()['results']
@@ -62,7 +63,9 @@ def test_filter_payments_by_loan_id(auth_client_user_test_1, loan_01):
     """
     Certifies payments can be filtered by loan id.
     """
-    new_loan = baker.make(Loan, client='user_01@email.com', request_date=date.today())
+    User = get_user_model()
+    user = User.objects.get(email='user_01@email.com')
+    new_loan = baker.make(Loan, client=user, request_date=date.today())
 
     payment_1 = Payment.objects.create(loan=loan_01, value=25, payment_date=date.today())
     new_payment = Payment.objects.create(loan=new_loan, value=35, payment_date=date.today())
