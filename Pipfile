@@ -13,6 +13,7 @@ dj-database-url = "*"
 psycopg2 = "*"
 gunicorn = "*"
 django-ipware = "*"
+sentry-sdk = {extras = ["django"], version = "*"}
 
 [dev-packages]
 flake8 = "*"
