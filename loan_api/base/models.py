@@ -22,7 +22,7 @@ class Loan(models.Model):
     value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
     interest_rate = models.FloatField()
     ip_address = models.GenericIPAddressField()
-    request_date = models.DateField(auto_now_add=True)
+    request_date = models.DateField(blank=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     client = models.CharField(max_length=64)
     installments = models.PositiveSmallIntegerField(verbose_name='Number of installments')
@@ -30,7 +30,7 @@ class Loan(models.Model):
 
 class Payment(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
-    payment_date = models.DateField(auto_now_add=True)
+    payment_date = models.DateField(blank=True)
     value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
 
     def __str__(self):
