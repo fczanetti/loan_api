@@ -21,6 +21,8 @@ def create_loan(request):
 
     # Get today's date as request_date if not informed
     request_date = data.get('request_date', date.today())
+    if not request_date:  # Dealing with empty strings when inserted
+        request_date = date.today()
 
     serializer = LoanSerializer(data=data)
     if serializer.is_valid(raise_exception=True):

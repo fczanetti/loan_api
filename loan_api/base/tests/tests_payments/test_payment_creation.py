@@ -85,10 +85,13 @@ def test_invalid_input(auth_client_user_test_1, loan_01):
 def test_payment_date_equals_today_if_not_filled(
         auth_client_user_test_1, loan_01):
     """
-    Certifies that, if not informed, the payment_date
-    is equal the day of creation of the Payment.
+    Certifies that, if not informed or informed an empty string,
+    the payment_date is equal the day of creation of the Payment.
     """
-    data = {'loan': loan_01.pk, 'value': 100}
-    resp = auth_client_user_test_1.post('/api/payments/', data=data)
+    data_1 = {'loan': loan_01.pk, 'value': 100}
+    data_2 = {'loan': loan_01.pk, 'value': 100, 'payment_date': ''}
+    resp_1 = auth_client_user_test_1.post('/api/payments/', data=data_1)
+    resp_2 = auth_client_user_test_1.post('/api/payments/', data=data_2)
     today = date.today()
-    assert resp.data['payment_date'] == today.isoformat()
+    assert resp_1.data['payment_date'] == today.isoformat()
+    assert resp_2.data['payment_date'] == today.isoformat()
