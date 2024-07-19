@@ -6,3 +6,5 @@ DATABASE_URL=postgres://loanuser:loanpass@localhost:5432/loandb
 POSTGRES_PASSWORD=loanpass
 POSTGRES_USER=loanuser
 POSTGRES_DB=loandb
+
+SENTRY_DSN=
