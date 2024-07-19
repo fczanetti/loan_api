@@ -11,6 +11,8 @@ def create_payment(request):
 
     # Insert payment_date if not informed
     payment_date = data.get('payment_date', date.today())
+    if not payment_date:  # Dealing with empty strings when inserted
+        payment_date = date.today()
 
     # As the create method was overridden in PaymentViewSet, the context
     # has to be informed in this PaymentSerializer instance. If we don't

@@ -92,10 +92,13 @@ def test_unauthenticated_user_can_not_create_loan():
 
 def test_request_date_equals_today_if_not_filled(auth_client_user_test_1, bank):
     """
-    Certifies that, if not informed, the request_date
-    is equal the day of creation of the Loan.
+    Certifies that, if not informed or informed an empty string,
+    the request_date is equal the day of creation of the Loan.
     """
-    data = {'value': 100, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
-    resp = auth_client_user_test_1.post('/api/loans/', data=data)
+    data_1 = {'value': 100, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
+    data_2 = {'value': 100, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1, 'request_date': ''}
+    resp_1 = auth_client_user_test_1.post('/api/loans/', data=data_1)
+    resp_2 = auth_client_user_test_1.post('/api/loans/', data=data_2)
     today = date.today()
-    assert resp.data['request_date'] == today.isoformat()
+    assert resp_1.data['request_date'] == today.isoformat()
+    assert resp_2.data['request_date'] == today.isoformat()
