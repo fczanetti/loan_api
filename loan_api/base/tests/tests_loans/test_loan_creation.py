@@ -31,7 +31,7 @@ def test_new_loan_created(resp_loan_creation_authenticated_user_test_1):
     Certifies that the new loan was created, saved and
     is shown in the response.
     """
-    new_loan = Loan.objects.filter(client='user_01@email.com')
+    new_loan = Loan.objects.filter(client__email='user_01@email.com')
     assert new_loan.exists()
 
     serializer = LoanSerializer(new_loan.first())

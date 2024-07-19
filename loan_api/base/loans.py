@@ -27,7 +27,7 @@ def create_loan(request):
 
         # Including ip_address and client when saving
         serializer.save(ip_address=ip_address,
-                        client=request.user.email,
+                        client=request.user,
                         request_date=request_date)
         return serializer.instance
 

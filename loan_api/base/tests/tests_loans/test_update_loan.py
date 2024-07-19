@@ -30,7 +30,7 @@ def test_updated_loan_returned_in_response(resp_update_loan_authenticated_user_t
     Certifies that the loan updated is returned
     in the response.
     """
-    loan = Loan.objects.filter(client='user_01@email.com').filter(value=110).first()
+    loan = Loan.objects.filter(client__email='user_01@email.com').filter(value=110).first()
     serializer = LoanSerializer(loan)
     assert resp_update_loan_authenticated_user_test_1.data == serializer.data
 

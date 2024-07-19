@@ -10,6 +10,7 @@ class LoanSerializer(serializers.ModelSerializer):
     payment_sum = serializers.SerializerMethodField(read_only=True)
     unpaid_value = serializers.SerializerMethodField(read_only=True)
     installment_value = serializers.SerializerMethodField(read_only=True)
+    client = serializers.PrimaryKeyRelatedField(source='client.email', read_only=True)
 
     class Meta:
         model = Loan
@@ -54,7 +55,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         Certifies that the loan informed belongs to
         the user creating the payment.
         """
-        client = self.context['request'].user.email
+        client = self.context['request'].user
         if not Loan.objects.filter(client=client).filter(id=value.id).exists():
             raise serializers.ValidationError('Make sure you informed a valid loan ID.')
         return value

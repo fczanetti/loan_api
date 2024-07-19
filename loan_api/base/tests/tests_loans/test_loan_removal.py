@@ -20,7 +20,7 @@ def test_loan_removal(resp_loan_removal_authenticated_user_test_1):
     the loan was deleted.
     """
     assert resp_loan_removal_authenticated_user_test_1.status_code == HTTP_204_NO_CONTENT
-    assert not Loan.objects.filter(client='user_01@email.com').exists()
+    assert not Loan.objects.filter(client__email='user_01@email.com').exists()
 
 
 def test_user_can_not_remove_loan_from_others(auth_client_user_test_1, loan_02):

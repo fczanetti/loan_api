@@ -37,7 +37,7 @@ def loans(db, users):
     Creates and returns 2 loans.
     """
     loans = [baker.make(Loan,
-                        client=user.email,
+                        client=user,
                         value=250,
                         installments=2,
                         request_date=date.today())
@@ -50,7 +50,7 @@ def loan_01(loans):
     """
     Returns loan_01.
     """
-    return Loan.objects.filter(client='user_01@email.com').first()
+    return Loan.objects.filter(client__email='user_01@email.com').first()
 
 
 @pytest.fixture
@@ -58,7 +58,7 @@ def loan_02(loans):
     """
     Returns loan_02.
     """
-    return Loan.objects.filter(client='user_02@email.com').first()
+    return Loan.objects.filter(client__email='user_02@email.com').first()
 
 
 @pytest.fixture
