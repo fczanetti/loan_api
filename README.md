@@ -4,6 +4,7 @@
 
 [![codecov](https://codecov.io/gh/fczanetti/loan_api/graph/badge.svg?token=n28xxXxXOG)](https://codecov.io/gh/fczanetti/loan_api)
 ![CI](https://github.com/fczanetti/loan_api/actions/workflows/wf.yml/badge.svg)
+![Sentry](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffczanetti%2Floan_api%2Fmain%2FPipfile.lock&query=%24.default%5B'sentry-sdk'%5D.version&label=Sentry&labelColor=%23452650&color=%2322272e)
 
 
 # Loan API
