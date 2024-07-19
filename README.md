@@ -113,6 +113,7 @@ Some of the main folders and files.
 |   |   |   ├── ├── initial_data.json
 |   |   |   ├── admin.py
 |   |   |   ├── loans.py
+|   |   |   ├── payments.py
 |   |   |   ├── models.py
 |   |   |   ├── serializers.py
 |   |   |   ├── validators.py
@@ -349,12 +350,15 @@ curl -X GET http://127.0.0.1:8000/api/loans/ \
 &nbsp;
 ### 1 - Creating a new Loan
 
-To create a new loan, send a POST request to `/api/loans/` informing the value, interest_rate, number of installments to quit the loan and bank ID. For example:
+To create a new loan, send a POST request to `/api/loans/` informing the value, interest_rate, request_date, number of installments to quit the loan and bank ID. 
+
+The **request_date** field is not required. If not informed, the current day will be filled automatically. But, if informed, the ISO 8601 format has to be used (YYYY-MM-DD). For example:
 
 ```
 {
     "value": 1000,
     "interest_rate": 2.5,
+    "request_date": '2024-07-10',
     "installments": 5,
     "bank": 1
 }
@@ -482,11 +486,14 @@ To delete a Loan, send a DELETE request to `/api/loans/{loan_id}/` informing the
 &nbsp;
 ### 6 - Creating a payment
 
-To create a Payment, send a POST request to `/api/payments/`. You'll need the ID of the Loan you are creating a Payment for. The format has to look like this:
+To create a Payment, send a POST request to `/api/payments/`. You'll need the ID of the Loan you are creating a Payment for. 
+
+The **payment_date** field is not required. If not informed, the current day will be filled automatically. But, if informed, the ISO 8601 format has to be used (YYYY-MM-DD). For example:
 
 ```
 {
     "loan": 1,
+    "payment_date": "2024-07-10",
     "value": 250
 }
 ```

@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 from model_bakery import baker
 from rest_framework.test import APIClient
@@ -34,7 +36,12 @@ def loans(db, users):
     """
     Creates and returns 2 loans.
     """
-    loans = [baker.make(Loan, client=user.email, value=250, installments=2) for user in users]
+    loans = [baker.make(Loan,
+                        client=user.email,
+                        value=250,
+                        installments=2,
+                        request_date=date.today())
+             for user in users]
     return loans
 
 
@@ -67,7 +74,7 @@ def payment_loan_01(db, loan_01):
     """
     Creates and returns a payment.
     """
-    payment = Payment.objects.create(loan=loan_01, value=20)
+    payment = Payment.objects.create(loan=loan_01, value=20, payment_date=date.today())
     return payment
 
 
@@ -76,5 +83,5 @@ def payment_loan_02(db, loan_02):
     """
     Creates and returns a payment.
     """
-    payment = Payment.objects.create(loan=loan_02, value=20)
+    payment = Payment.objects.create(loan=loan_02, value=20, payment_date=date.today())
     return payment

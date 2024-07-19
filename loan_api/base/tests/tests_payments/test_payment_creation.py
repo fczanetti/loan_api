@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 
 from loan_api.base.models import Loan, Payment
@@ -78,3 +80,15 @@ def test_invalid_input(auth_client_user_test_1, loan_01):
     assert resp_03.status_code == HTTP_400_BAD_REQUEST
     assert resp_04.status_code == HTTP_400_BAD_REQUEST
     assert resp_05.status_code == HTTP_400_BAD_REQUEST
+
+
+def test_payment_date_equals_today_if_not_filled(
+        auth_client_user_test_1, loan_01):
+    """
+    Certifies that, if not informed, the payment_date
+    is equal the day of creation of the Payment.
+    """
+    data = {'loan': loan_01.pk, 'value': 100}
+    resp = auth_client_user_test_1.post('/api/payments/', data=data)
+    today = date.today()
+    assert resp.data['payment_date'] == today.isoformat()

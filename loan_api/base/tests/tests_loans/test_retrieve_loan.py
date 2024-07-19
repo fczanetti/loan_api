@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 
 from loan_api.base.models import Payment
@@ -14,8 +16,8 @@ def resp_retrieve_loan_authenticated_user_test_1(auth_client_user_test_1, loan_0
     Creates a request to retrieve a loan that
     belongs to 'User Test 1' and returns a response.
     """
-    baker.make(Payment, loan=loan_01, value=50)
-    baker.make(Payment, loan=loan_01, value=60)
+    baker.make(Payment, loan=loan_01, value=50, payment_date=date.today())
+    baker.make(Payment, loan=loan_01, value=60, payment_date=date.today())
     resp = auth_client_user_test_1.get(f'/api/loans/{loan_01.pk}/')
     return resp
 

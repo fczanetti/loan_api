@@ -1,3 +1,4 @@
+from datetime import date
 from decimal import Decimal
 
 from loan_api.base.models import Loan, Payment
@@ -18,12 +19,16 @@ def create_loan(request):
     # Using django-ipware to get the ip address
     ip_address, _ = get_client_ip(request)
 
+    # Get today's date as request_date if not informed
+    request_date = data.get('request_date', date.today())
+
     serializer = LoanSerializer(data=data)
     if serializer.is_valid(raise_exception=True):
 
         # Including ip_address and client when saving
         serializer.save(ip_address=ip_address,
-                        client=request.user.email)
+                        client=request.user.email,
+                        request_date=request_date)
         return serializer.instance
 
 

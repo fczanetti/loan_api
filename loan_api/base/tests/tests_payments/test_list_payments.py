@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 from model_bakery import baker
 
@@ -12,7 +14,7 @@ def payments(db, loans):
     """
     Creates and returns two payments.
     """
-    payments = [baker.make(Payment, loan=loan, value=30) for loan in loans]
+    payments = [baker.make(Payment, loan=loan, value=30, payment_date=date.today()) for loan in loans]
     return payments
 
 
@@ -60,10 +62,10 @@ def test_filter_payments_by_loan_id(auth_client_user_test_1, loan_01):
     """
     Certifies payments can be filtered by loan id.
     """
-    new_loan = baker.make(Loan, client='user_01@email.com')
+    new_loan = baker.make(Loan, client='user_01@email.com', request_date=date.today())
 
-    payment_1 = Payment.objects.create(loan=loan_01, value=25)
-    new_payment = Payment.objects.create(loan=new_loan, value=35)
+    payment_1 = Payment.objects.create(loan=loan_01, value=25, payment_date=date.today())
+    new_payment = Payment.objects.create(loan=new_loan, value=35, payment_date=date.today())
 
     serializer_1 = PaymentSerializer(payment_1)
     serializer_new_payment = PaymentSerializer(new_payment)
