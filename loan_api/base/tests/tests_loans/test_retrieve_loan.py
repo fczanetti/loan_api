@@ -52,6 +52,7 @@ def test_loan_format_in_response(resp_retrieve_loan_authenticated_user_test_1, l
     assert resp_retrieve_loan_authenticated_user_test_1.data == loan_data
     assert serializer.data['payment_sum'] == 110
     assert isinstance(serializer.data['value'], float)
+    assert isinstance(serializer.data['interest_rate'], float)
 
 
 def test_retrieve_loan_from_other_client_not_found(auth_client_user_test_1, loan_02):

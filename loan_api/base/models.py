@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 
-from loan_api.base.validators import positive_value
+from loan_api.base.validators import positive_value, non_negative_interest_rate
 
 
 class UserManager(BaseUserManager):
@@ -139,7 +139,7 @@ class Bank(models.Model):
 
 class Loan(models.Model):
     value = models.DecimalField(max_digits=11, decimal_places=2, validators=[positive_value])
-    interest_rate = models.FloatField()
+    interest_rate = models.DecimalField(max_digits=4, decimal_places=2, validators=[non_negative_interest_rate])
     ip_address = models.GenericIPAddressField()
     request_date = models.DateField(blank=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)

@@ -40,6 +40,7 @@ class LoanSerializer(serializers.ModelSerializer):
         """
         ret = super().to_representation(instance)
         ret['value'] = float(ret['value'])
+        ret['interest_rate'] = float(ret['interest_rate'])
         return ret
 
 

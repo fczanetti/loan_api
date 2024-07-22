@@ -63,6 +63,8 @@ def test_requests_with_invalid_data(auth_client_user_test_1, bank):
     data_05 = {'value': 1, 'interest_rate': 5, 'bank': bank.pk, 'extra_field': 'abc', 'installments': 1}
     # Value must have no more than 2 decimal places
     data_06 = {'value': 1.333, 'interest_rate': 5, 'bank': bank.pk, 'installments': 1}
+    # Interest rate can not be negative
+    data_07 = {'value': 1.33, 'interest_rate': -1, 'bank': bank.pk, 'installments': 1}
 
     resp_01 = auth_client_user_test_1.post('/api/loans/', data=data_01)
     resp_02 = auth_client_user_test_1.post('/api/loans/', data=data_02)
@@ -70,6 +72,7 @@ def test_requests_with_invalid_data(auth_client_user_test_1, bank):
     resp_04 = auth_client_user_test_1.post('/api/loans/', data=data_04)
     resp_05 = auth_client_user_test_1.post('/api/loans/', data=data_05)
     resp_06 = auth_client_user_test_1.post('/api/loans/', data=data_06)
+    resp_07 = auth_client_user_test_1.post('/api/loans/', data=data_07)
 
     assert resp_01.status_code == HTTP_400_BAD_REQUEST
     assert resp_02.status_code == HTTP_400_BAD_REQUEST
@@ -77,6 +80,7 @@ def test_requests_with_invalid_data(auth_client_user_test_1, bank):
     assert resp_04.status_code == HTTP_400_BAD_REQUEST
     assert resp_05.status_code == HTTP_201_CREATED
     assert resp_06.status_code == HTTP_400_BAD_REQUEST
+    assert resp_07.status_code == HTTP_400_BAD_REQUEST
 
 
 def test_unauthenticated_user_can_not_create_loan():
