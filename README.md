@@ -359,7 +359,7 @@ The **request_date** field is not required. If not informed, the current day wil
 {
     "value": 1000,
     "interest_rate": 2.5,
-    "request_date": '2024-07-10',
+    "request_date": "2024-07-10",
     "installments": 5,
     "bank": 1
 }
