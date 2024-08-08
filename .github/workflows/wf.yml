@@ -54,7 +54,7 @@ jobs:
 
   build-push:
     needs: CI
-    # if: github.ref == 'refs/heads/main'  # runs deploy only if the push action is on branch main
+    if: github.ref == 'refs/heads/main'  # build image and push to Digital Ocean only if the push action is on branch main
     runs-on: ubuntu-latest
 
     steps:
@@ -67,10 +67,10 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Build container image
-        run: docker build -t registry.digitalocean.com/loan-reg/loan-api:$(echo $GITHUB_SHA | head -c7) .
+        run: docker build -t ${{ secrets.REGISTRY_NAME }}/loan_api:$(echo $GITHUB_SHA | head -c7) .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
 
       - name: Push image to DigitalOcean Container Registry
-        run: docker push registry.digitalocean.com/loan-reg/loan-api:$(echo $GITHUB_SHA | head -c7)
+        run: docker push ${{ secrets.REGISTRY_NAME }}/loan_api:$(echo $GITHUB_SHA | head -c7)
